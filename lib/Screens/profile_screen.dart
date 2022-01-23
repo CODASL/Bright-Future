@@ -1,8 +1,9 @@
+import 'package:brightfuture/Widgets/Profile%20Screen/profile_tile.dart';
+import 'package:brightfuture/constant/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:sisuupakara/Widgets/Profile%20Screen/profile_tile.dart';
-import 'package:sisuupakara/constant/image.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);

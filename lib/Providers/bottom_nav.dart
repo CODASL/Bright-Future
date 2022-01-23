@@ -1,8 +1,9 @@
+import 'package:brightfuture/Models/navigation_item.dart';
+import 'package:brightfuture/Screens/home_screen.dart';
+import 'package:brightfuture/Screens/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sisuupakara/Models/navigation_item.dart';
-import 'package:sisuupakara/Screens/home_screen.dart';
-import 'package:sisuupakara/Screens/profile_screen.dart';
+
 
 class BottomNav extends ChangeNotifier {
   int currentIndex = 0;

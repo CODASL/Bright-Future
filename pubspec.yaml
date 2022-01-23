@@ -1,4 +1,4 @@
-name: sisuupakara
+name: brightfuture
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.2
+  rename: ^2.0.1
 
 dev_dependencies:
 

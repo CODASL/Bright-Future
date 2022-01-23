@@ -1,7 +1,8 @@
+import 'package:brightfuture/Providers/bottom_nav.dart';
+import 'package:brightfuture/Widgets/Custom%20App%20Bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sisuupakara/Providers/bottom_nav.dart';
-import 'package:sisuupakara/Widgets/Custom%20App%20Bar/custom_app_bar.dart';
+
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);

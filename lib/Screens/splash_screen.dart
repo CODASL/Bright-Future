@@ -1,7 +1,9 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:brightfuture/constant/image.dart';
 import 'package:flutter/material.dart';
-import 'package:sisuupakara/Screens/wrapper.dart';
-import 'package:sisuupakara/constant/image.dart';
+
+import 'wrapper.dart';
+
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
