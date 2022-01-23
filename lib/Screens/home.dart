@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisuupakara/Providers/bottom_nav.dart';
-import 'package:sisuupakara/Screens/login.dart';
+import 'package:sisuupakara/Widgets/Custom%20App%20Bar/custom_app_bar.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -37,36 +37,3 @@ class Home extends StatelessWidget {
   }
 }
 
-PreferredSize customAppBar({
-  required String title,
-  required BuildContext context,
-}) {
-  return PreferredSize(
-      child: AppBar(
-        centerTitle: true,
-        title: Text(title),
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) {
-                return const Login();
-              }));
-            },
-            child: Row(
-              children: const [
-                Text("Logout"),
-                SizedBox(
-                  width: 8,
-                ),
-                Icon(Icons.logout),
-                SizedBox(
-                  width: 8,
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-      preferredSize: const Size.fromHeight(66));
-}

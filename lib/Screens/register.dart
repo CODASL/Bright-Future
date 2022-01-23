@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sisuupakara/Screens/home.dart';
-import 'package:sisuupakara/Screens/login.dart';
+import 'package:sisuupakara/Widgets/Custom%20Button/custom_button.dart';
+import 'package:sisuupakara/Widgets/Custom%20Text%20Field/custom_textfield.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);

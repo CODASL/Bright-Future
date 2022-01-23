@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:sisuupakara/Widgets/Profile%20Screen/profile_tile.dart';
 import 'package:sisuupakara/constant/image.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -21,22 +23,14 @@ class ProfileScreen extends StatelessWidget {
               backgroundImage: AssetImage(avatar),
               radius: 50,
             ),
-            ListTile(
-              title: Center(
-                  child: Text(
-                "Saman Kumara",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              )),
+            ProfileListTile(
+              title: "Saman Kumara",
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
-            ListTile(
-              title: Center(child: Text("City : Colombo")),
-            ),
-            ListTile(
-              title: Center(child: Text("Email : example@gmail.com")),
-            ),
-            ListTile(
-              title: Center(child: Text("Phone : +94778548789")),
-            ),
+            ProfileListTile(title: "City : Colombo"),
+            ProfileListTile(title: "Email : example@gmail.com"),
+            ProfileListTile(title: "Phone : +94778548789"),
           ],
         ),
       ),
