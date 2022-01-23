@@ -19,7 +19,7 @@ class Login extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(
-                  height: 200,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [Text("Bright Future")],
@@ -73,7 +73,3 @@ class Login extends StatelessWidget {
     );
   }
 }
-
-
-
-

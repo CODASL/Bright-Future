@@ -17,6 +17,6 @@ class BottomNav extends ChangeNotifier {
   List<NavigationItem> navItems = [
     NavigationItem(label: "Home", icon: Icons.home, route: const HomeScreen()),
     NavigationItem(
-        label: "profile", icon: Icons.person, route: const ProfileScreen()),
+        label: "Profile", icon: Icons.person, route: const ProfileScreen()),
   ];
 }
