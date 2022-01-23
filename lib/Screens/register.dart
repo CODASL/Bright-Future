@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sisuupakara/Screens/home.dart';
 import 'package:sisuupakara/Widgets/Custom%20Button/custom_button.dart';
 import 'package:sisuupakara/Widgets/Custom%20Text%20Field/custom_textfield.dart';
+import 'package:sisuupakara/constant/image.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
@@ -11,17 +12,19 @@ class Register extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery.of(context).size.height * 0.9,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  height: 200,
+                  height: MediaQuery.of(context).size.height * 0.3,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [Text("Bright Future")],
+                    children: [
+                      Image.asset(logo),
+                    ],
                   ),
                 ),
                 const CustomTextField(label: 'Full Name', isPassword: false),

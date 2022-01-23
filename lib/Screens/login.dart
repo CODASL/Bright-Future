@@ -3,6 +3,7 @@ import 'package:sisuupakara/Screens/home.dart';
 import 'package:sisuupakara/Screens/register.dart';
 import 'package:sisuupakara/Widgets/Custom%20Button/custom_button.dart';
 import 'package:sisuupakara/Widgets/Custom%20Text%20Field/custom_textfield.dart';
+import 'package:sisuupakara/constant/image.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -14,15 +15,17 @@ class Login extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
+            height: MediaQuery.of(context).size.height * 0.8,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.3,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [Text("Bright Future")],
+                    children:  [
+                      Image.asset(logo),
+                    ],
                   ),
                 ),
                 const CustomTextField(

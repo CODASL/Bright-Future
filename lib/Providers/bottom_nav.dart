@@ -12,11 +12,12 @@ class BottomNav extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   List<NavigationItem> navItems = [
     NavigationItem(label: "Home", icon: Icons.home, route: const HomeScreen()),
     NavigationItem(
-        label: "Profile", icon: Icons.person, route: const ProfileScreen()),
+      label: "Profile",
+      icon: Icons.person,
+      route: const ProfileScreen(),
+    ),
   ];
 }
