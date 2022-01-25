@@ -4,12 +4,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<String> titles = [
+      "City",
+      "Email",
+      "Phone number",
+    ];
+    List<String> subtitles = [
+      "Colombo",
+      "example@gmail.com",
+      "+94774758652",
+    ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 100),
       child: Material(
@@ -19,19 +28,30 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            CircleAvatar(
+          children: [
+            const CircleAvatar(
               backgroundImage: AssetImage(avatar),
               radius: 50,
             ),
-            ProfileListTile(
+            const ProfileListTile(
               title: "Saman Kumara",
               fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
-            ProfileListTile(title: "City : Colombo"),
-            ProfileListTile(title: "Email : example@gmail.com"),
-            ProfileListTile(title: "Phone : +94778548789"),
+            ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 3,
+              separatorBuilder: (BuildContext context, int index) {
+                return const Divider();
+              },
+              itemBuilder: (BuildContext context, int index) {
+                return ProfileListTile(
+                  title: titles[index],
+                  subtitle: subtitles[index],
+                );
+              },
+            ),
           ],
         ),
       ),

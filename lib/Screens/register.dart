@@ -2,7 +2,6 @@ import 'package:brightfuture/Widgets/Custom%20Button/custom_button.dart';
 import 'package:brightfuture/Widgets/Custom%20Text%20Field/custom_textfield.dart';
 import 'package:brightfuture/constant/image.dart';
 import 'package:flutter/material.dart';
-
 import 'home.dart';
 
 
