@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:brightfuture/Screens/home.dart';
+import 'package:brightfuture/Screens/mypost.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,6 +31,9 @@ class DrawerTileChange extends ChangeNotifier {
         }));
         break;
       case 1:
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+          return const MyPost();
+        }));
         break;
       case 2:
         debugPrint("Share");

@@ -27,17 +27,26 @@ class PostWidget extends StatelessWidget {
             horizontal: ScreenSize.width * 0.04,
             vertical: ScreenSize.height * 0.01),
         width: ScreenSize.width,
-        child: Column(
-          children: const [
-            PostHeader(),
-            PostBody(),
-            SizedBox(
-              height: 15,
-            ),
-            PostImages(),
-          ],
-        ),
+        child: const EntirePost(),
       ),
+    );
+  }
+}
+
+class EntirePost extends StatelessWidget {
+  const EntirePost({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        PostHeader(),
+        PostBody(),
+        SizedBox(
+          height: 15,
+        ),
+        PostImages(),
+      ],
     );
   }
 }
