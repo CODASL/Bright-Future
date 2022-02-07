@@ -1,7 +1,6 @@
 import 'package:brightfuture/Screens/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-
 
 PreferredSize customAppBar({
   required String title,
@@ -13,7 +12,8 @@ PreferredSize customAppBar({
         title: Text(title),
         actions: [
           InkWell(
-            onTap: () {
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) {
                 return const Login();
@@ -36,4 +36,3 @@ PreferredSize customAppBar({
       ),
       preferredSize: const Size.fromHeight(66));
 }
-

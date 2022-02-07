@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sisuupakara">
+    package="com.coda.brightfuture">
    <application
         android:label="Bright Future"
         android:icon="@mipmap/ic_launcher">

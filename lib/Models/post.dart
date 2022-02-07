@@ -1,17 +1,32 @@
 import 'package:brightfuture/Models/user.dart';
-import 'post_option.dart';
+
 
 class Post {
-  AppUser user;
-  String postedData;
-  String postBody;
-  List<String> imgs;
-  List<PostOption> options;
+  AppUser? user;
+  String? postedDate;
+  String? postBody;
+  List<String>? imgs;
+
   Post({
-    required this.user,
-    required this.postedData,
-    required this.postBody,
-    required this.imgs,
-    required this.options,
+     this.user,
+     this.postedDate,
+     this.postBody,
+     this.imgs,
   });
+
+  Post.fromJson(Map<String, dynamic> json) {
+    user = json['uid'];
+    postedDate = json['postedDate'];
+    postBody = json['postBody'];
+    imgs = json['imgs'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['uid'] = user;
+    data['postedDate'] = postedDate;
+    data['postBody'] = postBody;
+    data['imgs'] = imgs;
+    return data;
+  }
 }

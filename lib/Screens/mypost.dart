@@ -9,7 +9,7 @@ class MyPost extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("My Posts"),
+        title: const Text("My Posts"),
       ),
       body: ListView.builder(
         itemCount: 3,

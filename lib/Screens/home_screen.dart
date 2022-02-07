@@ -56,15 +56,22 @@ class PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const menuItems = ['Update', 'Delete'];
     return ListTile(
-      leading: const CircleAvatar(),
-      title: const Text("Full Name"),
-      subtitle: Text(DateTime.now().toString()),
-      trailing: IconButton(
-        onPressed: () {},
-        icon: const Icon(Icons.menu),
-      ),
-    );
+        leading: const CircleAvatar(),
+        title: const Text("Full Name"),
+        subtitle: Text(DateTime.now().toString()),
+        trailing: PopupMenuButton<String>(
+          onSelected: (String val) {},
+          itemBuilder: (BuildContext context) {
+            return menuItems.map((val) {
+              return PopupMenuItem<String>(
+                value: val,
+                child: Text(val),
+              );
+            }).toList();
+          },
+        ));
   }
 }
 

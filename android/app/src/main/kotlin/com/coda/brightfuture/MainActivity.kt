@@ -1,4 +1,4 @@
-package com.example.sisuupakara
+package com.coda.brightfuture
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,5 @@
 import 'package:brightfuture/Models/Providers/bottom_nav.dart';
+import 'package:brightfuture/Screens/add_post.dart';
 import 'package:brightfuture/Widgets/Custom%20App%20Bar/custom_app_bar.dart';
 import 'package:brightfuture/Widgets/CustomDrawer/drawer.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
@@ -49,7 +50,11 @@ class CustomFloatingActionButton extends StatelessWidget {
           )
         : FloatingActionButton.extended(
             label: const CustomText(title: "Add a Post"),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) {
+                return const AddPost();
+              }));
+            },
             icon: const Icon(Icons.post_add),
           );
   }
