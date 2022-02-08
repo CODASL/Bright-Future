@@ -1,3 +1,5 @@
+import 'package:brightfuture/constant/image.dart';
+
 class AppUser {
   String imgPath;
   String name;
@@ -5,7 +7,7 @@ class AppUser {
   String email;
   String phoneNumber;
   AppUser({
-    required this.imgPath,
+    this.imgPath = avatar,
     required this.name,
     required this.city,
     required this.email,

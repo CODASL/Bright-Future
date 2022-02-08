@@ -1,3 +1,4 @@
+import 'package:brightfuture/Models/Providers/check_connectivity.dart';
 import 'package:brightfuture/Models/Providers/drawer_tile_change.dart';
 import 'package:brightfuture/Models/Providers/login_state.dart';
 import 'package:provider/provider.dart';
@@ -15,5 +16,7 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider<LoginState>(
     create: (context) => LoginState(),
   ),
-  
+  ChangeNotifierProvider<CheckConnectivity>(
+    create: (context) => CheckConnectivity(),
+  ),
 ];

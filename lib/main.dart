@@ -2,11 +2,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'Models/Providers/check_connectivity.dart';
 import 'Models/Providers/provider.dart';
 import 'Screens/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: providers,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -26,21 +32,30 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initializeDefault();
+    final connection = Provider.of<CheckConnectivity>(context, listen: false);
+    connection.tryConnection();
+    connection.checkConnectivityState();
+    connection.connectivityStateChange();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<CheckConnectivity>(context, listen: false)
+        .connectivitySubscription
+        ?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: providers,
-      child: MaterialApp(
-        theme: ThemeData(
-            textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme,
-        )),
-        title: 'bright future',
-        debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
-      ),
+    return MaterialApp(
+      theme: ThemeData(
+          textTheme: GoogleFonts.latoTextTheme(
+        Theme.of(context).textTheme,
+      )),
+      title: 'bright future',
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
     );
   }
 }

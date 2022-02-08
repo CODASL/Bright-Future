@@ -1,3 +1,4 @@
+import 'package:brightfuture/Models/user.dart';
 import 'package:brightfuture/Services/auth.dart';
 import 'package:brightfuture/Widgets/Custom%20Button/custom_button.dart';
 import 'package:brightfuture/Widgets/Custom%20Text%20Field/custom_textfield.dart';
@@ -21,6 +22,18 @@ class _RegisterState extends State<Register> {
   TextEditingController pN = TextEditingController();
 
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    fullName.dispose();
+    email.dispose();
+    npassword.dispose();
+    cpassword.dispose();
+    city.dispose();
+    pN.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,17 +97,19 @@ class _RegisterState extends State<Register> {
                               city.text.isNotEmpty &&
                               email.text.isNotEmpty &&
                               pN.text.isNotEmpty) {
-                            debugPrint(npassword.text + " " + cpassword.text);
                             setState(() {
                               isLoading = true;
                             });
-                            bool isRegistered = await AuthService()
-                                .registerWithEmailPassword(
-                                    phoneNumber: pN.text,
-                                    city: city.text,
-                                    email: email.text,
-                                    password: cpassword.text,
-                                    fullName: fullName.text);
+                            bool isRegistered =
+                                await AuthService().registerWithEmailPassword(
+                              user: AppUser(
+                                name: fullName.text,
+                                city: city.text,
+                                email: email.text,
+                                phoneNumber: pN.text,
+                              ),
+                              password: cpassword.text,
+                            );
 
                             if (isRegistered) {
                               setState(() {

@@ -1,34 +1,25 @@
+import 'package:brightfuture/Models/user.dart';
+import 'package:brightfuture/Services/Database/user_handeling.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  Future<bool> registerWithEmailPassword(
-      {required String email,
-      required String password,
-      required String fullName,
-      required String city,
-      required String phoneNumber}) async {
+//Register in using email pass
+  Future<bool> registerWithEmailPassword({
+    required AppUser user,
+    required String password,
+  }) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: email,
+        email: user.email,
         password: password,
       );
-      users
-          .doc(userCredential.user!.uid)
-          .set({
-            'fullName': fullName,
-            'email': email,
-            'city': city,
-            'phoneNumber': phoneNumber,
-            'uid': userCredential.user!.uid,
-          })
-          .then((val) => debugPrint("User Added"))
-          .catchError((error) => debugPrint(error.toString()));
+      UserHandling.adduser(
+        user: user,
+        uid: userCredential.user!.uid,
+      );
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -44,6 +35,7 @@ class AuthService {
     }
   }
 
+//Sign in using email pass
   Future<bool> signInWithEmailPassword(
       {required String email, required String password}) async {
     try {
@@ -59,7 +51,12 @@ class AuthService {
         debugPrint('Wrong password provided for that user.');
         return false;
       }
+      debugPrint(e.toString());
       return false;
     }
   }
 }
+
+//Add User
+
+
