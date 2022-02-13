@@ -1,6 +1,4 @@
-import 'package:brightfuture/Models/Providers/check_connectivity.dart';
-import 'package:brightfuture/Models/Providers/drawer_tile_change.dart';
-import 'package:brightfuture/Models/Providers/login_state.dart';
+
 import 'package:brightfuture/Models/screen_size.dart';
 import 'package:brightfuture/Screens/home.dart';
 import 'package:brightfuture/Widgets/Error%20Page/error_page.dart';
@@ -8,6 +6,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Providers/check_connectivity.dart';
+import '../Providers/drawer_tile_change.dart';
+import '../Providers/login_state.dart';
 import 'login.dart';
 
 class Wrapper extends StatelessWidget {

@@ -1,4 +1,6 @@
+
 import 'package:brightfuture/Models/user.dart';
+import 'package:brightfuture/Providers/error_handler.dart';
 import 'package:brightfuture/Services/Database/user_handeling.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ class AuthService {
   Future<bool> registerWithEmailPassword({
     required AppUser user,
     required String password,
+    required ErrorHandler errorHandler,
   }) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -20,17 +23,24 @@ class AuthService {
         user: user,
         uid: userCredential.user!.uid,
       );
+      errorHandler.setError(isError: false, message: "Registered Successfully");
+      debugPrint(errorHandler.message.toString());
 
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        debugPrint("Weak Password");
+        errorHandler.setError(isError: true, message: "Weak Password");
+        debugPrint("Error" +errorHandler.message.toString());
       } else if (e.code == "email-already-in-use") {
-        debugPrint('The account already exists for that email.');
+        errorHandler.setError(
+            isError: true,
+            message: 'The account already exists for that email.');
+        debugPrint("Error" +errorHandler.message.toString());
       }
       return false;
     } catch (e) {
-      debugPrint(e.toString());
+      errorHandler.setError(isError: true, message: e.toString());
+      debugPrint("Error" + errorHandler.message.toString());
       return false;
     }
   }

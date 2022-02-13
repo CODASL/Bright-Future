@@ -1,8 +1,32 @@
+
 import 'package:brightfuture/Models/screen_size.dart';
 import 'package:flutter/material.dart';
 
-class AddImages extends StatelessWidget {
+
+class AddImages extends StatefulWidget {
   const AddImages({Key? key}) : super(key: key);
+
+  @override
+  State<AddImages> createState() => _AddImagesState();
+}
+
+class _AddImagesState extends State<AddImages> {
+
+//   File? storedImage;
+// Future<void> takePicture() async {    
+//   final imageFile = await ImagePicker.platform.pickImage(source: ImageSource.camera,      
+//                     maxWidth: 600);    
+//   if (imageFile == null) {      
+//     return;   
+//   }    
+//     setState(() {      
+//       storedImage = imageFile as File?;    
+//     });    
+//     final appDir = await syspaths.getApplicationDocumentsDirectory(); 
+//     final fileName = path.basename(imageFile.path);    
+//     final savedImage = await imageFile.copy('${appDir.path}/$fileName');  
+//   }
+
 
   @override
   Widget build(BuildContext context) {

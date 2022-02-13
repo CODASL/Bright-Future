@@ -1,10 +1,12 @@
-import 'package:brightfuture/Models/Providers/bottom_nav.dart';
+
 import 'package:brightfuture/Screens/add_post.dart';
 import 'package:brightfuture/Widgets/Custom%20App%20Bar/custom_app_bar.dart';
 import 'package:brightfuture/Widgets/CustomDrawer/drawer.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../Providers/bottom_nav.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);

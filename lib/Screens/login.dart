@@ -78,7 +78,7 @@ class _LoginState extends State<Login> {
                                     email: email.text, password: password.text);
                             if (isLoggedIn) {
                               debugPrint("Logged in");
-                              Navigator.pushReplacement(context,
+                              Navigator.push(context,
                                   MaterialPageRoute(builder: (_) {
                                 return const Home();
                               }));

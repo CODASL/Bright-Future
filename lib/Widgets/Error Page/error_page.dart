@@ -1,4 +1,4 @@
-import 'package:brightfuture/Models/Providers/check_connectivity.dart';
+
 import 'package:brightfuture/Models/screen_size.dart';
 import 'package:brightfuture/Screens/home.dart';
 import 'package:brightfuture/Screens/login.dart';
@@ -7,6 +7,8 @@ import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../Providers/check_connectivity.dart';
 
 class ErrorPage extends StatelessWidget {
   final bool isLoggedIn;

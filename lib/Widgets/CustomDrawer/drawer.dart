@@ -2,9 +2,7 @@ import 'package:brightfuture/Models/screen_size.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:brightfuture/constant/colors.dart';
 import 'package:brightfuture/constant/image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'drawer_tiles.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -18,7 +16,7 @@ class CustomDrawer extends StatelessWidget {
         children: [
           SizedBox(
             height: ScreenSize.height * 0.33,
-            child:  UserAccountsDrawerHeader(
+            child: UserAccountsDrawerHeader(
               currentAccountPictureSize: const Size.fromRadius(75),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: const AssetImage(logo),
@@ -28,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
               accountName: CustomText(
                 color: kBlack,
                 title: "Bright Future",
-              fontSize: 30,
+                fontSize: 30,
               ),
               accountEmail: CustomText(
                 color: primaryColor,

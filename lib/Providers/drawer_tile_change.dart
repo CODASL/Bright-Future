@@ -4,7 +4,7 @@ import 'package:brightfuture/Screens/mypost.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../drawer_tile.dart';
+import '../Models/drawer_tile.dart';
 
 class DrawerTileChange extends ChangeNotifier {
   List<DrawerTileModel> drawerTileData = [
@@ -20,9 +20,12 @@ class DrawerTileChange extends ChangeNotifier {
         notifyListeners();
       }
     }
+
+
     var item = drawerTileData[index];
     item.isTapped = !item.isTapped;
     notifyListeners();
+
 
     switch (index) {
       case 0:

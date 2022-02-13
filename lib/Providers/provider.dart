@@ -1,10 +1,11 @@
-import 'package:brightfuture/Models/Providers/check_connectivity.dart';
-import 'package:brightfuture/Models/Providers/drawer_tile_change.dart';
-import 'package:brightfuture/Models/Providers/login_state.dart';
+
+import 'package:brightfuture/Providers/error_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-
 import 'bottom_nav.dart';
+import 'check_connectivity.dart';
+import 'drawer_tile_change.dart';
+import 'login_state.dart';
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider<BottomNav>(
@@ -18,5 +19,8 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<CheckConnectivity>(
     create: (context) => CheckConnectivity(),
+  ),
+  ChangeNotifierProvider<ErrorHandler>(
+    create: (context) => ErrorHandler(),
   ),
 ];

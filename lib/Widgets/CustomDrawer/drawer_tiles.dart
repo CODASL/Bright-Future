@@ -1,7 +1,6 @@
-import 'package:brightfuture/Models/Providers/drawer_tile_change.dart';
+import 'package:brightfuture/Providers/drawer_tile_change.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'drawer_tile_widget.dart';
 
 class DrawerTiles extends StatelessWidget {
@@ -15,11 +14,8 @@ class DrawerTiles extends StatelessWidget {
       shrinkWrap: true,
       itemCount: tileData.drawerTileData.length,
       itemBuilder: (BuildContext context, int index) {
-        var item = tileData.drawerTileData[index];
         return DrawerTile(
           index: index,
-          item: item,
-          tileData: tileData,
         );
       },
     );
