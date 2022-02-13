@@ -1,8 +1,11 @@
+import 'package:brightfuture/Providers/error_handler.dart';
 import 'package:brightfuture/Services/auth.dart';
 import 'package:brightfuture/Widgets/Custom%20Button/custom_button.dart';
 import 'package:brightfuture/Widgets/Custom%20Text%20Field/custom_textfield.dart';
+import 'package:brightfuture/Widgets/Error%20Dialog/error_dialog.dart';
 import 'package:brightfuture/constant/image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'home.dart';
 import 'register.dart';
@@ -24,6 +27,46 @@ class _LoginState extends State<Login> {
     email.dispose();
     password.dispose();
     super.dispose();
+  }
+
+  onLogin() async {
+    if (email.text.isNotEmpty && password.text.isNotEmpty) {
+      setState(() {
+        isLoading = true;
+      });
+      bool isLoggedIn = await AuthService().signInWithEmailPassword(
+          email: email.text,
+          password: password.text,
+          errorHandler: Provider.of<ErrorHandler>(context, listen: false));
+      if (isLoggedIn) {
+        debugPrint("Logged in");
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+          return const Home();
+        }));
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return Consumer<ErrorHandler>(
+                builder: (context, error, child) {
+                  return ErrorDialog(errorText: error.message.toString());
+                },
+              );
+            });
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) {
+            return const ErrorDialog(errorText: "Invalid Credentials");
+          });
+    }
   }
 
   @override
@@ -67,34 +110,7 @@ class _LoginState extends State<Login> {
                         height: 30,
                       ),
                       CustomButton(
-                        onPressed: () async {
-                          if (email.text.isNotEmpty &&
-                              password.text.isNotEmpty) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            bool isLoggedIn = await AuthService()
-                                .signInWithEmailPassword(
-                                    email: email.text, password: password.text);
-                            if (isLoggedIn) {
-                              debugPrint("Logged in");
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (_) {
-                                return const Home();
-                              }));
-                              setState(() {
-                                isLoading = false;
-                              });
-                            } else {
-                              debugPrint("Login Failed");
-                              setState(() {
-                                isLoading = false;
-                              });
-                            }
-                          } else {
-                            debugPrint("Invalid Credentials");
-                          }
-                        },
+                        onPressed: onLogin,
                         radius: 25,
                         height: 55,
                         minWidth: MediaQuery.of(context).size.width,

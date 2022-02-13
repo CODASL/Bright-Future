@@ -11,7 +11,10 @@ class ErrorDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Center(child: CustomText(title: "Error")),
-      content: CustomText(title: errorText),
+      content: CustomText(
+        title: errorText,
+        textAlign: TextAlign.center,
+      ),
       actionsAlignment: MainAxisAlignment.center,
       actions: [
         CustomButton(
