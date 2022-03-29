@@ -7,26 +7,23 @@ class GetPostIncludes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return 
+    
+    Padding(
       padding: EdgeInsets.only(
         top: 40,
         bottom: 40,
         left: ScreenSize.width * 0.05,
         right: ScreenSize.width * 0.05,
       ),
-      child: Column(
-        children: const [
-          CustomTextField(label: "Head", isPassword: false),
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            label: "Body",
-            isPassword: false,
-            maxLines: 5,
-            maxLength: 100,
-          ),
-        ],
+      child:  CustomTextField(
+        onChanged: (String val){
+
+        },
+        label: "Body",
+        isPassword: false,
+        maxLines:9,
+        maxLength: 100,
       ),
     );
   }

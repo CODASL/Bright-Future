@@ -16,6 +16,7 @@ class PostButtonBar extends StatelessWidget {
             minWidth: ScreenSize.width * 0.35,
             radius: 20),
         CustomButton(
+            onPressed: () {},
             label: "Reset",
             height: 50,
             minWidth: ScreenSize.width * 0.35,

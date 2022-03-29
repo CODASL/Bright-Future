@@ -1,5 +1,6 @@
 
 import 'package:brightfuture/Providers/error_handler.dart';
+import 'package:brightfuture/Providers/post_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'bottom_nav.dart';
@@ -22,5 +23,8 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<ErrorHandler>(
     create: (context) => ErrorHandler(),
+  ),
+  ChangeNotifierProvider<PostController>(
+    create: (context) => PostController(),
   ),
 ];

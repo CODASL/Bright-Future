@@ -50,10 +50,10 @@ class DrawerTileChange extends ChangeNotifier {
 
   Future<void> share() async {
     await FlutterShare.share(
-      title: 'Mp3 Factory App 😍',
-      text: 'Hello , Download this awesome mp3 factory app from here 😍👉\n',
+      title: 'Bright Future App 😍',
+      text: 'Hello , Download this  app from here 😍👉\n',
       linkUrl: 'https://irix.solutions/',
-      chooserTitle: 'Share Mp3 Factory with',
+      chooserTitle: 'Share Bright Future App with',
     );
   }
 

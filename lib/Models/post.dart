@@ -1,11 +1,12 @@
 import 'package:brightfuture/Models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class Post {
-  AppUser? user;
-  String? postedDate;
+  String? user;
+  Timestamp? postedDate;
   String? postBody;
-  List<String>? imgs;
+  List<dynamic>? imgs;
 
   Post({
      this.user,

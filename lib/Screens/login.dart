@@ -29,48 +29,52 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  onLogin() async {
-    if (email.text.isNotEmpty && password.text.isNotEmpty) {
-      setState(() {
-        isLoading = true;
-      });
-      bool isLoggedIn = await AuthService().signInWithEmailPassword(
-          email: email.text,
-          password: password.text,
-          errorHandler: Provider.of<ErrorHandler>(context, listen: false));
-      if (isLoggedIn) {
-        debugPrint("Logged in");
-        Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return const Home();
-        }));
+  @override
+  Widget build(BuildContext context) {
+    onLogin() async {
+      if (email.text.isNotEmpty && password.text.isNotEmpty) {
         setState(() {
-          isLoading = false;
+          isLoading = true;
         });
+        bool isLoggedIn = await AuthService().signInWithEmailPassword(
+            email: email.text,
+            password: password.text,
+            errorHandler: Provider.of<ErrorHandler>(context, listen: false));
+        if (isLoggedIn) {
+          debugPrint("Logged in");
+          try {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return const Home();
+            }));
+            setState(() {
+              isLoading = false;
+            });
+          } on Exception catch (_, ex) {
+            debugPrint(ex.toString());
+          }
+        } else {
+          showDialog(
+              context: context,
+              builder: (_) {
+                return Consumer<ErrorHandler>(
+                  builder: (context, error, child) {
+                    return ErrorDialog(errorText: error.message.toString());
+                  },
+                );
+              });
+          setState(() {
+            isLoading = false;
+          });
+        }
       } else {
         showDialog(
             context: context,
             builder: (_) {
-              return Consumer<ErrorHandler>(
-                builder: (context, error, child) {
-                  return ErrorDialog(errorText: error.message.toString());
-                },
-              );
+              return const ErrorDialog(errorText: "Invalid Credentials");
             });
-        setState(() {
-          isLoading = false;
-        });
       }
-    } else {
-      showDialog(
-          context: context,
-          builder: (_) {
-            return const ErrorDialog(errorText: "Invalid Credentials");
-          });
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
           ? const Center(
