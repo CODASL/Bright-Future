@@ -50,9 +50,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          textTheme: GoogleFonts.latoTextTheme(
-        Theme.of(context).textTheme,
-      ),
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
+        ),
       ),
       title: 'bright future',
       debugShowCheckedModeBanner: false,
