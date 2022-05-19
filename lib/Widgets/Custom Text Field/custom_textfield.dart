@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength;
   final String? suffixText;
   final void Function(String)? onChanged;
+  final String? initialValue;
   const CustomTextField({
     Key? key,
     required this.label,
@@ -15,13 +16,16 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.maxLines,
     this.maxLength,
-    this.suffixText, this.onChanged,
+    this.suffixText,
+    this.onChanged,
+    this.initialValue,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged:onChanged ,
+      initialValue: initialValue,
+      onChanged: onChanged,
       maxLength: maxLength,
       maxLines: maxLines ?? 1,
       controller: controller,

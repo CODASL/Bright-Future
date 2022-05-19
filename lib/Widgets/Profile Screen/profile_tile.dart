@@ -28,13 +28,16 @@ class ProfileListTile extends StatelessWidget {
         style: TextStyle(fontWeight: fontWeight, fontSize: fontSize),
       ),
       subtitle: Text(subtitle),
-      trailing: IconButton(
+      trailing:title == "Email"?null: IconButton(
           onPressed: () {
             showDialog(
               context: context,
               barrierDismissible: false,
               builder: (_) {
-                return EditDialog(what: title);
+                return EditDialog(
+                  what: title,
+                  content: subtitle,
+                );
               },
             );
           },

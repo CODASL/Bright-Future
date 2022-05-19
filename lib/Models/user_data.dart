@@ -1,42 +1,42 @@
 import 'dart:convert';
 
 class UserData {
-   String fullName;
-   String city;
-   String email;
-   String phoneNumber;
-   String uid;
-
+  String fullName;
+  String city;
+  String email;
+  String phoneNumber;
+  String uid;
+  String photoUrl;
 
   get getFullName => fullName;
 
- set setFullName( fullName) => this.fullName = fullName;
+  set setFullName(fullName) => this.fullName = fullName;
 
   get getCity => city;
 
- set setCity( city) => this.city = city;
+  set setCity(city) => this.city = city;
 
   get getEmail => email;
 
- set setEmail( email) => this.email = email;
+  set setEmail(email) => this.email = email;
 
   get getPhoneNumber => phoneNumber;
 
- set setPhoneNumber( phoneNumber) => this.phoneNumber = phoneNumber;
+  set setPhoneNumber(phoneNumber) => this.phoneNumber = phoneNumber;
 
   get getUid => uid;
 
- set setUid( uid) => this.uid = uid;
+  set setUid(uid) => this.uid = uid;
 
- 
   UserData({
-     required this.fullName,
-     required this.city,
-     required this.email,
-     required this.phoneNumber,
-     required this.uid,
+    required this.fullName,
+    required this.city,
+    required this.email,
+    required this.phoneNumber,
+    required this.uid,
+    required this.photoUrl,
   });
- UserData.custom(this.fullName, this.city, this.email, this.phoneNumber, this.uid);
+
   Map<String, dynamic> toMap() {
     return {
       'fullName': fullName,
@@ -54,10 +54,12 @@ class UserData {
       email: map['email'] ?? '',
       phoneNumber: map['phoneNumber'] ?? '',
       uid: map['uid'] ?? '',
+      photoUrl: map['photoUrl'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserData.fromJson(String source) => UserData.fromMap(json.decode(source));
+  factory UserData.fromJson(String source) =>
+      UserData.fromMap(json.decode(source));
 }

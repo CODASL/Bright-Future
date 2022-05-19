@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
               builder: (_) {
                 return Consumer<ErrorHandler>(
                   builder: (context, error, child) {
-                    return ErrorDialog(errorText: error.message.toString());
+                    return ErrorDialog(errorText: ErrorHandler.message??"");
                   },
                 );
               });

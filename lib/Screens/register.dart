@@ -1,15 +1,15 @@
-import 'package:brightfuture/Models/screen_size.dart';
-import 'package:brightfuture/Models/user.dart';
-import 'package:brightfuture/Screens/login.dart';
-import 'package:brightfuture/Services/auth.dart';
-import 'package:brightfuture/Widgets/Custom%20Button/custom_button.dart';
-import 'package:brightfuture/Widgets/Custom%20Text%20Field/custom_textfield.dart';
-import 'package:brightfuture/Widgets/Error%20Dialog/error_dialog.dart';
-import 'package:brightfuture/constant/image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Models/screen_size.dart';
+import '../Models/user.dart';
 import '../Providers/error_handler.dart';
+import '../Services/auth.dart';
+import '../Widgets/Custom Button/custom_button.dart';
+import '../Widgets/Custom Text Field/custom_textfield.dart';
+import '../Widgets/Error Dialog/error_dialog.dart';
+import '../constant/image.dart';
 import 'home.dart';
+import 'login.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -82,9 +82,7 @@ class _RegisterState extends State<Register> {
           builder: (_) {
             return Consumer<ErrorHandler>(
               builder: (context, myType, child) {
-                return ErrorDialog(
-                  errorText: errorHandler.message.toString(),
-                );
+                return ErrorDialog(errorText: ErrorHandler.message ?? "");
               },
             );
           },

@@ -1,8 +1,9 @@
 import 'package:brightfuture/Models/user.dart';
-import 'package:brightfuture/Providers/error_handler.dart';
-import 'package:brightfuture/Services/Database/user_handeling.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../Providers/error_handler.dart';
+import 'Database/user_handeling.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -22,24 +23,22 @@ class AuthService {
         user: user,
         uid: userCredential.user!.uid,
       );
-      errorHandler.setError(isError: false, message: "Registered Successfully");
-      debugPrint(errorHandler.message.toString());
+      ErrorHandler.setError(i: false, m: "Registered Successfully");
 
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        errorHandler.setError(isError: true, message: "Weak Password");
-        debugPrint("Error" + errorHandler.message.toString());
+        ErrorHandler.setError(i: true, m: "Weak Password");
+        debugPrint("Error" + ErrorHandler.message.toString());
       } else if (e.code == "email-already-in-use") {
-        errorHandler.setError(
-            isError: true,
-            message: 'The account already exists for that email.');
-        debugPrint("Error" + errorHandler.message.toString());
+        ErrorHandler.setError(
+            i: true, m: 'The account already exists for that email.');
+        debugPrint("Error" + ErrorHandler.message.toString());
       }
       return false;
     } catch (e) {
-      errorHandler.setError(isError: true, message: e.toString());
-      debugPrint("Error" + errorHandler.message.toString());
+      ErrorHandler.setError(i: true, m: e.toString());
+      debugPrint("Error" + ErrorHandler.message.toString());
       return false;
     }
   }
@@ -54,29 +53,28 @@ class AuthService {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       debugPrint(userCredential.user!.uid);
-      errorHandler.setError(isError: false, message: "Login success");
+      ErrorHandler.setError(i: false, m: "Login success");
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint('No user found for that email.');
-        errorHandler.setError(
-            isError: true, message: 'No user found for that email.');
+        ErrorHandler.setError(i: true, m: 'No user found for that email.');
         return false;
       } else if (e.code == 'wrong-password') {
         debugPrint('Wrong password provided for that user.');
-        errorHandler.setError(
-            isError: true, message: 'Wrong password provided for that user.');
+        ErrorHandler.setError(
+            i: true, m: 'Wrong password provided for that user.');
 
         return false;
       } else {
         debugPrint(e.toString());
-        errorHandler.setError(isError: true, message: e.toString());
+        ErrorHandler.setError(i: true, m: e.toString());
       }
 
       return false;
     } catch (e) {
       debugPrint(e.toString());
-      errorHandler.setError(isError: true, message: e.toString());
+      ErrorHandler.setError(i: true, m: e.toString());
       return true;
     }
   }
