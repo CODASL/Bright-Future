@@ -1,11 +1,12 @@
-import 'package:brightfuture/Models/post.dart';
-import 'package:brightfuture/Models/screen_size.dart';
-import 'package:brightfuture/Providers/post_controller.dart';
-import 'package:brightfuture/Services/Database/post_handeling.dart';
-import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Models/post.dart';
+import '../Models/screen_size.dart';
+import '../Providers/post_controller.dart';
+import '../Services/Database/post_handeling.dart';
+import '../Widgets/CustomText/custom_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

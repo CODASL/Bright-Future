@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../Edit Dialog/edit_dialog.dart';
 
 class ProfileListTile extends StatelessWidget {
+  final IconData leading;
   final String title;
   final FontWeight? fontWeight;
   final double? fontSize;
@@ -10,20 +12,33 @@ class ProfileListTile extends StatelessWidget {
       required this.title,
       this.fontWeight,
       this.fontSize,
-       this.subtitle = ''})
+      this.subtitle = '',
+      required this.leading})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Center(
-          child: Text(
+      leading: Icon(
+        leading,
+        color: Theme.of(context).primaryColor,
+      ),
+      title: Text(
         title,
         style: TextStyle(fontWeight: fontWeight, fontSize: fontSize),
-      )),
-      subtitle: Center(
-        child: Text(subtitle),
       ),
+      subtitle: Text(subtitle),
+      trailing: IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) {
+                return EditDialog(what: title);
+              },
+            );
+          },
+          icon: const Icon(Icons.edit)),
     );
   }
 }

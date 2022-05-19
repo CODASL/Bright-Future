@@ -1,15 +1,30 @@
-
-import 'package:brightfuture/Screens/add_post.dart';
-import 'package:brightfuture/Widgets/Custom%20App%20Bar/custom_app_bar.dart';
-import 'package:brightfuture/Widgets/CustomDrawer/drawer.dart';
-import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import '../Animations/page_transition_slide.dart';
 import '../Providers/bottom_nav.dart';
+import '../Providers/drawer_tile_change.dart';
+import '../Providers/profile_screen_controller.dart';
+import '../Widgets/Custom App Bar/custom_app_bar.dart';
+import '../Widgets/CustomDrawer/drawer.dart';
+import '../Widgets/CustomText/custom_text.dart';
+import 'add_post.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<DrawerTileChange>(context, listen: false)
+        .drawerTileData[0]
+        .isTapped = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +62,22 @@ class CustomFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return bNav.currentIndex == 1
         ? FloatingActionButton(
-            onPressed: () {},
+            onPressed: () async {
+              Uri _url = Uri.parse(
+                  "tel:${Provider.of<ProfileScreenController>(context, listen: false).user?.phoneNumber.toString()}");
+              try {
+                await canLaunchUrl(_url);
+              } catch (e) {
+                debugPrint('$e');
+                debugPrint('Could not launch $_url');
+              }
+            },
             child: const Icon(Icons.phone),
           )
         : FloatingActionButton.extended(
             label: const CustomText(title: "Add a Post"),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) {
-                return const AddPost();
-              }));
+              Navigator.push(context, SlideTransition1(const AddPost()));
             },
             icon: const Icon(Icons.post_add),
           );

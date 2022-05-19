@@ -9,7 +9,8 @@ import '../Models/drawer_tile.dart';
 class DrawerTileChange extends ChangeNotifier {
   List<DrawerTileModel> drawerTileData = [
     DrawerTileModel(icon: FontAwesomeIcons.home, title: "Home"),
-    DrawerTileModel(icon: FontAwesomeIcons.newspaper, title: "My Posts"),
+    DrawerTileModel(icon: FontAwesomeIcons.newspaper, title: "My Claim Posts"),
+    DrawerTileModel(icon: FontAwesomeIcons.newspaper, title: "My Offer Posts"),
     DrawerTileModel(icon: FontAwesomeIcons.shareAlt, title: "Share"),
     DrawerTileModel(icon: FontAwesomeIcons.signOutAlt, title: "Exit"),
   ];
@@ -21,11 +22,9 @@ class DrawerTileChange extends ChangeNotifier {
       }
     }
 
-
     var item = drawerTileData[index];
     item.isTapped = !item.isTapped;
     notifyListeners();
-
 
     switch (index) {
       case 0:
@@ -39,10 +38,14 @@ class DrawerTileChange extends ChangeNotifier {
         }));
         break;
       case 2:
-        debugPrint("Share");
-        share();
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+          return const MyPost();
+        }));
         break;
       case 3:
+        share();
+        break;
+      case 4:
         exit(0);
       default:
     }

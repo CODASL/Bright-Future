@@ -1,12 +1,13 @@
 
-import 'package:brightfuture/Providers/error_handler.dart';
-import 'package:brightfuture/Providers/post_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'bottom_nav.dart';
 import 'check_connectivity.dart';
 import 'drawer_tile_change.dart';
+import 'error_handler.dart';
 import 'login_state.dart';
+import 'post_controller.dart';
+import 'profile_screen_controller.dart';
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider<BottomNav>(
@@ -26,5 +27,8 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<PostController>(
     create: (context) => PostController(),
+  ),
+  ChangeNotifierProvider<ProfileScreenController>(
+    create: (context) => ProfileScreenController(),
   ),
 ];
