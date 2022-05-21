@@ -33,6 +33,7 @@ dependencies:
   change_app_package_name: ^1.0.0
   cloud_firestore: ^3.1.7
   connectivity_plus: ^1.0.6
+  cross_file_image: ^0.0.2
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.3.6
   firebase_core: ^1.12.0
