@@ -9,6 +9,8 @@ class CustomTextField extends StatelessWidget {
   final String? suffixText;
   final void Function(String)? onChanged;
   final String? initialValue;
+
+  final String? Function(String?)? validator;
   const CustomTextField({
     Key? key,
     required this.label,
@@ -19,11 +21,13 @@ class CustomTextField extends StatelessWidget {
     this.suffixText,
     this.onChanged,
     this.initialValue,
+    this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: validator,
       initialValue: initialValue,
       onChanged: onChanged,
       maxLength: maxLength,

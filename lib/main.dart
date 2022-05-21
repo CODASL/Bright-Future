@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initializeDefault();
+    
     final connection = Provider.of<CheckConnectivity>(context, listen: false);
     connection.tryConnection();
     connection.checkConnectivityState();

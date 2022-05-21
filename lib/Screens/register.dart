@@ -107,53 +107,61 @@ class _RegisterState extends State<Register> {
             )
           : SingleChildScrollView(
               child: SizedBox(
-                height: MediaQuery.of(context).size.height,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(logo),
-                          ],
-                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        child: Image.asset(logo),
                       ),
                       CustomTextField(
                         label: 'Full Name',
                         isPassword: false,
                         controller: fullName,
                       ),
+                      SizedBox(
+                        height: ScreenSize.height * 0.04,
+                      ),
                       CustomTextField(
                         label: 'Email',
                         isPassword: false,
                         controller: email,
+                      ),
+                      SizedBox(
+                        height: ScreenSize.height * 0.04,
                       ),
                       CustomTextField(
                         label: 'City',
                         isPassword: false,
                         controller: city,
                       ),
+                      SizedBox(
+                        height: ScreenSize.height * 0.04,
+                      ),
                       CustomTextField(
                         label: 'Phone Number',
                         isPassword: false,
                         controller: pN,
+                      ),
+                      SizedBox(
+                        height: ScreenSize.height * 0.04,
                       ),
                       CustomTextField(
                         label: 'New Password',
                         isPassword: true,
                         controller: npassword,
                       ),
+                      SizedBox(
+                        height: ScreenSize.height * 0.04,
+                      ),
                       CustomTextField(
                         label: 'Confirm Password',
                         isPassword: true,
                         controller: cpassword,
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: ScreenSize.height * 0.05,
                       ),
                       CustomButton(
                         onPressed: onRegister,
@@ -161,6 +169,9 @@ class _RegisterState extends State<Register> {
                         height: 50,
                         minWidth: ScreenSize.width,
                         radius: 25,
+                      ),
+                      SizedBox(
+                        height: ScreenSize.height * 0.04,
                       ),
                       CustomButton(
                         onPressed: () {
@@ -173,7 +184,10 @@ class _RegisterState extends State<Register> {
                         height: 50,
                         minWidth: ScreenSize.width,
                         radius: 25,
-                      )
+                      ),
+                      SizedBox(
+                        height: ScreenSize.height * 0.04,
+                      ),
                     ],
                   ),
                 ),

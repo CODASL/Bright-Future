@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:brightfuture/constant/image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,6 @@ import '../Widgets/CustomText/custom_text.dart';
 import '../Widgets/Profile Screen/profile_tile.dart';
 import '../Widgets/loading.dart';
 import '../constant/colors.dart';
-import '../constant/image.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -47,18 +47,21 @@ class ProfileScreen extends StatelessWidget {
                             Icons.camera_alt,
                             color: kWhite,
                           )),
-                      child: CircleAvatar(
-                        backgroundColor: kWhite,
-                        child: CachedNetworkImage(
-                          imageUrl: snapshot.data?.photoUrl ?? dp,
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                      child: CachedNetworkImage(
+                        imageUrl: snapshot.data?.photoUrl ?? dp,
+                        imageBuilder: (context, imageProvider) => Container(
+                          width: ScreenSize.width*0.3,
+                          height: ScreenSize.height*0.17,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
                         ),
-                        radius: 70,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     ),
                     CustomText(

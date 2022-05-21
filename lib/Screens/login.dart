@@ -1,12 +1,16 @@
-import 'package:brightfuture/Providers/error_handler.dart';
-import 'package:brightfuture/Services/auth.dart';
-import 'package:brightfuture/Widgets/Custom%20Button/custom_button.dart';
-import 'package:brightfuture/Widgets/Custom%20Text%20Field/custom_textfield.dart';
-import 'package:brightfuture/Widgets/Error%20Dialog/error_dialog.dart';
-import 'package:brightfuture/constant/image.dart';
+import 'package:brightfuture/Providers/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Models/screen_size.dart';
+import '../Providers/error_handler.dart';
+import '../Providers/login_state.dart';
+import '../Services/auth.dart';
+import '../Widgets/Custom Button/custom_button.dart';
+import '../Widgets/Custom Text Field/custom_textfield.dart';
+import '../Widgets/custom_snackbar.dart';
+import '../Widgets/loading.dart';
+import '../constant/image.dart';
 import 'home.dart';
 import 'register.dart';
 
@@ -18,128 +22,124 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  bool isLoading = false;
-
-  @override
-  void dispose() {
-    email.dispose();
-    password.dispose();
-    super.dispose();
-  }
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    onLogin() async {
-      if (email.text.isNotEmpty && password.text.isNotEmpty) {
-        setState(() {
-          isLoading = true;
-        });
-        bool isLoggedIn = await AuthService().signInWithEmailPassword(
-            email: email.text,
-            password: password.text,
-            errorHandler: Provider.of<ErrorHandler>(context, listen: false));
-        if (isLoggedIn) {
-          debugPrint("Logged in");
-          try {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-              return const Home();
-            }));
-            setState(() {
-              isLoading = false;
-            });
-          } on Exception catch (_, ex) {
-            debugPrint(ex.toString());
-          }
-        } else {
-          showDialog(
-              context: context,
-              builder: (_) {
-                return Consumer<ErrorHandler>(
-                  builder: (context, error, child) {
-                    return ErrorDialog(errorText: ErrorHandler.message??"");
-                  },
-                );
-              });
-          setState(() {
-            isLoading = false;
-          });
-        }
-      } else {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return const ErrorDialog(errorText: "Invalid Credentials");
-            });
-      }
-    }
-
-    return Scaffold(
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
+    return Consumer<LoginState>(
+      builder: (context, ctrl, child) {
+        return Scaffold(
+          body: ctrl.isLoading
+              ? const LoadingWidget()
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      //height: ScreenSize.height * 0.8,
+                      child: Form(
+                        key: _formKey,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Image.asset(logo),
+                            SizedBox(
+                              height: ScreenSize.height * 0.3,
+                              child: Image.asset(logo),
+                            ),
+                            CustomTextField(
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return "email can not be empty";
+                                }
+                                return null;
+                              },
+                              onChanged: (String? email) {
+                                ctrl.emailOnChanged(email);
+                              },
+                              isPassword: false,
+                              label: 'Email',
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            CustomTextField(
+                              validator: (password) {
+                                if (password == null || password.isEmpty) {
+                                  return 'password can not be empty';
+                                }
+                                return null;
+                              },
+                              onChanged: (String? password) {
+                                ctrl.passwordOnChanged(password);
+                              },
+                              isPassword: true,
+                              label: 'Password',
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            CustomButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  ctrl.loadingOnChanged(true);
+
+                                  bool isLoggedIn = await AuthService()
+                                      .signInWithEmailPassword(
+                                          email: ctrl.email ?? '',
+                                          password: ctrl.password ?? '',
+                                          errorHandler:
+                                              Provider.of<ErrorHandler>(context,
+                                                  listen: false));
+                                  if (isLoggedIn) {
+                                    try {
+                                      Provider.of<BottomNav>(context,
+                                              listen: false)
+                                          .onChange(0);
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (_) {
+                                        return const Home();
+                                      }));
+                                      ctrl.loadingOnChanged(false);
+                                    } on Exception catch (_, ex) {
+                                      ctrl.loadingOnChanged(false);
+                                      debugPrint(ex.toString());
+                                    }
+                                  } else {
+                                    ctrl.loadingOnChanged(false);
+                                    showSnackBar(
+                                        isError: ErrorHandler.isError ?? true,
+                                        message: ErrorHandler.message ?? '',
+                                        ctx: context);
+                                  }
+                                }
+                              },
+                              radius: 25,
+                              height: ScreenSize.height * 0.08,
+                              minWidth: ScreenSize.width,
+                              label: 'Login',
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CustomButton(
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (_) {
+                                  return const Register();
+                                }));
+                              },
+                              radius: 25,
+                              height: ScreenSize.height * 0.08,
+                              minWidth: ScreenSize.width,
+                              label: 'Register',
+                            ),
                           ],
                         ),
                       ),
-                      CustomTextField(
-                        controller: email,
-                        isPassword: false,
-                        label: 'Email',
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      CustomTextField(
-                        controller: password,
-                        isPassword: true,
-                        label: 'Password',
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      CustomButton(
-                        onPressed: onLogin,
-                        radius: 25,
-                        height: 55,
-                        minWidth: MediaQuery.of(context).size.width,
-                        label: 'Login',
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      CustomButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return const Register();
-                          }));
-                        },
-                        radius: 25,
-                        height: 55,
-                        minWidth: MediaQuery.of(context).size.width,
-                        label: 'Register',
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
+        );
+      },
     );
   }
 }
