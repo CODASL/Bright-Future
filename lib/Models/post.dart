@@ -1,33 +1,39 @@
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class Post {
-  String? user;
-  Timestamp? postedDate;
-  String? postBody;
-  List<String>? imgs;
+  String? postedBy;
+  Timestamp postedDate;
+  String postBody;
+  List<String> images;
 
   Post({
-     this.user,
-     this.postedDate,
-     this.postBody,
-     this.imgs,
+     this.postedBy,
+    required this.postedDate,
+    required this.postBody,
+    required this.images,
   });
 
-  Post.fromJson(Map<String, dynamic> json) {
-    user = json['uid'];
-    postedDate = json['postedDate'];
-    postBody = json['postBody'];
-    imgs = json['imgs'];
+  Map<String, dynamic> toMap() {
+    return {
+      'postedBy': postedBy,
+      'postedDate': postedDate,
+      'postBody': postBody,
+      'images': images,
+    };
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['uid'] = user;
-    data['postedDate'] = postedDate;
-    data['postBody'] = postBody;
-    data['imgs'] = imgs;
-    return data;
+  factory Post.fromMap(Map<String, dynamic> map) {
+    return Post(
+      postedBy: map['posted_by'] ?? '',
+      postedDate: map['posted_date'],
+      postBody: map['body'] ?? '',
+      images: List<String>.from(map['images']),
+    );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory Post.fromJson(String source) => Post.fromMap(json.decode(source));
 }

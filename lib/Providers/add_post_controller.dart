@@ -16,7 +16,6 @@ class AddPostController extends ChangeNotifier {
 
   addImage(String key, XFile? img) {
     images.addAll({key: img});
-
     notifyListeners();
   }
 
@@ -64,7 +63,7 @@ class AddPostController extends ChangeNotifier {
     try {
       showLoaderDialog(context);
       String? ref = await PostHandling.addPost(
-              Post(imgs: [], postBody: postBody, postedDate: Timestamp.now()))
+              Post(images: [], postBody: postBody??'', postedDate: Timestamp.now()))
           .then((String? ref) {
         return ref;
       });

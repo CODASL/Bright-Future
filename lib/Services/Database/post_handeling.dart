@@ -11,7 +11,7 @@ class PostHandling {
   static Future<String?> addPost(Post post) async {
     String? id = await posts.add({
       "body": post.postBody,
-      "images": post.imgs,
+      "images": post.images,
       "posted_by": _auth.currentUser?.uid,
       "posted_date": post.postedDate,
     }).then((DocumentReference<Object?> value) {
@@ -43,7 +43,7 @@ class PostHandling {
     return false;
   }
 
-  Stream<QuerySnapshot> getPosts() {
-    return posts.snapshots();
+  static Stream<QuerySnapshot> getPosts() {
+    return posts.orderBy('posted_date', descending: true).snapshots();
   }
 }
