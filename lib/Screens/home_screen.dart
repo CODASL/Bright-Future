@@ -1,3 +1,4 @@
+import 'package:brightfuture/Services/Database/user_handeling.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return StreamBuilder<QuerySnapshot>(
       stream: PostHandling.getPosts(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -54,13 +54,13 @@ class EntirePost extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(ScreenSize.width * 0.02),
           child: Column(
-            children: const [
-              PostHeader(),
-              PostBody(),
-              SizedBox(
+            children: [
+              PostHeader(uid: post.postedBy, postedDate: post.postedDate),
+              const PostBody(),
+              const SizedBox(
                 height: 15,
               ),
-              PostImages(),
+              const PostImages(),
             ],
           ),
         ),
@@ -70,26 +70,41 @@ class EntirePost extends StatelessWidget {
 }
 
 class PostHeader extends StatelessWidget {
-  const PostHeader({Key? key}) : super(key: key);
+  final String? uid;
+  final Timestamp postedDate;
+  const PostHeader({Key? key, required this.uid, required this.postedDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(uid);
     const menuItems = ['Update', 'Delete'];
-    return ListTile(
-        leading: const CircleAvatar(),
-        title: const Text("Full Name"),
-        subtitle: Text(DateTime.now().toString()),
-        trailing: PopupMenuButton<String>(
-          onSelected: (String val) {},
-          itemBuilder: (BuildContext context) {
-            return menuItems.map((val) {
-              return PopupMenuItem<String>(
-                value: val,
-                child: Text(val),
-              );
-            }).toList();
-          },
-        ));
+    return StreamBuilder<QuerySnapshot>(
+      stream: UserHandling.getUserFieldValue(uid),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        String? photoUrl = snapshot.data?.docs[0].get('photoUrl');
+        String? name = snapshot.data?.docs[0].get('fullName');
+        return ListTile(
+            leading: photoUrl == null
+                ? null
+                : CircleAvatar(
+                    backgroundImage: NetworkImage(photoUrl),
+                  ),
+            title: Text(name ?? "Loading...."),
+            subtitle: Text(postedDate.toDate().toString()),
+            trailing: PopupMenuButton<String>(
+              onSelected: (String val) {},
+              itemBuilder: (BuildContext context) {
+                return menuItems.map((val) {
+                  return PopupMenuItem<String>(
+                    value: val,
+                    child: Text(val),
+                  );
+                }).toList();
+              },
+            ));
+      },
+    );
   }
 }
 

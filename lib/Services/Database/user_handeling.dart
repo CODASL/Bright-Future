@@ -51,4 +51,12 @@ class UserHandling {
       debugPrint(stackrace);
     });
   }
+
+  static Stream<QuerySnapshot> getUserFieldValue(String? docId) async* {
+    yield* _firestore
+        .collection('users')
+        .where('uid', isEqualTo: docId)
+        .limit(1)
+        .snapshots();
+  }
 }
