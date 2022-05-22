@@ -1,6 +1,8 @@
+import 'package:brightfuture/Screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import '../Animations/page_transition_slide.dart';
 import '../Models/post.dart';
 import '../Services/Database/post_handeling.dart';
 import '../Services/storage.dart';
@@ -36,18 +38,18 @@ class AddPostController extends ChangeNotifier {
 
   Future uploadImage({required BuildContext context, String? ref}) async {
     Storage storage = Storage();
+    imgUrls.clear();
     if (images.isNotEmpty) {
       await Future.forEach(images.entries.map((e) => e.value).toList(),
           (XFile? image) async {
         if (image?.path != null) {
           final path = image?.path;
           final name = image?.name;
-          print("ready to Upload");
-          await storage.uploadFile(path.toString(), name.toString(),
-              'postImages/$ref _' + name.toString());
-          print("After Upload");
-          await storage.getFile('postImages', '$ref _$name').then((String url) {
-            print(url);
+
+          await storage.uploadFile(
+              path.toString(), name.toString(), 'postImages/$ref/$name');
+
+          await storage.getFile('postImages/$ref/', '$name').then((String url) {
             imgUrls.add(url);
             notifyListeners();
           });
@@ -68,14 +70,13 @@ class AddPostController extends ChangeNotifier {
       });
 
       await uploadImage(context: context, ref: ref).then((value) {
-        print("List $imgUrls");
         PostHandling.updatePost(key: "images", value: imgUrls, ref: ref ?? '');
-        print("List $imgUrls");
       });
-    } on Exception catch (e) {
-      debugPrint(e.toString());
-    } finally {
       Navigator.pop(context);
+      Navigator.pushReplacement(context, SlideTransition1(const Home()));
+    } on Exception catch (e) {
+      Navigator.pop(context);
+      debugPrint(e.toString());
     }
   }
 }
