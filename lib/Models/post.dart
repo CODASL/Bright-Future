@@ -7,12 +7,14 @@ class Post {
   Timestamp postedDate;
   String postBody;
   List<String> images;
+  String postType;
 
   Post({
-     this.postedBy,
+    this.postedBy,
     required this.postedDate,
     required this.postBody,
     required this.images,
+    required this.postType,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,6 +32,7 @@ class Post {
       postedDate: map['posted_date'],
       postBody: map['body'] ?? '',
       images: List<String>.from(map['images']),
+      postType: map['post_type'],
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final bool isPassword;
-  final String label;
+  final String? label;
   final int? maxLines;
   final int? maxLength;
   final String? suffixText;
@@ -13,8 +13,8 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   const CustomTextField({
     Key? key,
-    required this.label,
-    required this.isPassword,
+    this.label,
+    this.isPassword = false,
     this.controller,
     this.maxLines,
     this.maxLength,

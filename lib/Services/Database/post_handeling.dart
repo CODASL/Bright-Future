@@ -34,16 +34,17 @@ class PostHandling {
     return false;
   }
 
-  Future<bool> deletePost() async {
-    posts.doc().delete().then((value) {
-      return true;
-    }).onError((error, stackTrace) {
-      return false;
+  static Future deletePost(String docid) async {
+    posts.doc(docid).delete().then((value) {}).catchError((error, stackTrace) {
+      throw error;
     });
-    return false;
   }
 
-  static Stream<QuerySnapshot> getPosts() {
-    return posts.orderBy('posted_date', descending: true).snapshots();
+  static Stream<QuerySnapshot> getPosts({String? uid, String? postType}) {
+    return posts
+        .orderBy('posted_date', descending: true)
+        .where('posted_by', isEqualTo: uid)
+        .where('post_type', isEqualTo: postType)
+        .snapshots();
   }
 }

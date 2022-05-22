@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:brightfuture/Screens/faq.dart';
 import 'package:brightfuture/Screens/home.dart';
 import 'package:brightfuture/Screens/mypost.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ import '../Models/drawer_tile.dart';
 class DrawerTileChange extends ChangeNotifier {
   List<DrawerTileModel> drawerTileData = [
     DrawerTileModel(icon: FontAwesomeIcons.home, title: "Home"),
-    DrawerTileModel(icon: FontAwesomeIcons.newspaper, title: "My Claim Posts"),
-    DrawerTileModel(icon: FontAwesomeIcons.newspaper, title: "My Offer Posts"),
+    DrawerTileModel(icon: FontAwesomeIcons.newspaper, title: "My Posts"),
+    DrawerTileModel(icon: FontAwesomeIcons.question, title: "FAQ"),
     DrawerTileModel(icon: FontAwesomeIcons.shareAlt, title: "Share"),
     DrawerTileModel(icon: FontAwesomeIcons.signOutAlt, title: "Exit"),
   ];
@@ -39,7 +40,7 @@ class DrawerTileChange extends ChangeNotifier {
         break;
       case 2:
         Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return const MyPost();
+          return const FAQ();
         }));
         break;
       case 3:
