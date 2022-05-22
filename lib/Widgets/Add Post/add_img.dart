@@ -1,16 +1,16 @@
-import 'package:brightfuture/Models/screen_size.dart';
-import 'package:brightfuture/Providers/add_image_controller.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import '../../Models/screen_size.dart';
+import '../../Providers/add_post_controller.dart';
 
 class AddImages extends StatelessWidget {
   const AddImages({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AddImageController>(
+    return Consumer<AddPostController>(
       builder: (context, ctrl, child) {
         return SizedBox(
           height: ScreenSize.height * 0.4,
@@ -19,67 +19,47 @@ class AddImages extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              InkWell(
-                onTap: () async {
-                  try {
-                    final ImagePicker _picker = ImagePicker();
-                    final XFile? image =
-                        await _picker.pickImage(source: ImageSource.gallery);
-
-                    ctrl.addImage("Image1", image);
-                  } catch (e) {
-                    debugPrint(e.toString());
-                  }
-                },
-                child: InkWell(
-                  onTap: () async {
-                    try {
-                      final ImagePicker _picker = ImagePicker();
-                      final XFile? image =
-                          await _picker.pickImage(source: ImageSource.gallery);
-
-                      ctrl.addImage("Image1", image);
-                    } catch (e) {
-                      debugPrint(e.toString());
-                    }
-                  },
-                  child: Material(
-                    elevation: 5,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        image: ctrl.images['Image1'] != null
-                            ? DecorationImage(
-                                image:
-                                    XFileImage(ctrl.images['Image1'] as XFile))
-                            : null,
-                      ),
-                      child: ctrl.images['Image1'] == null
-                          ? const Center(
-                              child: Icon(Icons.add_a_photo),
-                            )
-                          : null,
-                      width: ScreenSize.width * 0.4,
-                      height: ScreenSize.height * 0.3,
-                    ),
-                  ),
-                ),
-              ),
-              Material(
-                elevation: 5,
-                child: Container(
-                  child: const Center(
-                    child: Icon(Icons.add_a_photo),
-                  ),
-                  width: ScreenSize.width * 0.4,
-                  height: ScreenSize.height * 0.3,
-                  color: Colors.white,
-                ),
-              ),
+              ImageBox(ctrl: ctrl, imgName: "Image1"),
+              ImageBox(ctrl: ctrl, imgName: "Image2"),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class ImageBox extends StatelessWidget {
+  final AddPostController ctrl;
+  final String imgName;
+  const ImageBox({Key? key, required this.ctrl, required this.imgName})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        await ctrl.pickImage(imgName, context);
+      },
+      child: Material(
+        elevation: 5,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            image: ctrl.images[imgName] != null
+                ? DecorationImage(
+                    image: XFileImage(ctrl.images[imgName] as XFile))
+                : null,
+          ),
+          child: ctrl.images[imgName] == null
+              ? const Center(
+                  child: Icon(Icons.add_a_photo),
+                )
+              : null,
+          width: ScreenSize.width * 0.4,
+          height: ScreenSize.height * 0.3,
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
-import 'package:brightfuture/Providers/add_image_controller.dart';
+
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'add_post_controller.dart';
 import 'bottom_nav.dart';
 import 'check_connectivity.dart';
 import 'drawer_tile_change.dart';
@@ -31,7 +32,7 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider<ProfileScreenController>(
     create: (context) => ProfileScreenController(),
   ),
-  ChangeNotifierProvider<AddImageController>(
-    create: (context) => AddImageController(),
+  ChangeNotifierProvider<AddPostController>(
+    create: (context) => AddPostController(),
   )
 ];
