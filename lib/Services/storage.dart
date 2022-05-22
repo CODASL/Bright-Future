@@ -6,30 +6,29 @@ import 'package:flutter/material.dart';
 class Storage {
   final firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> uploadFile(String filePath, String fileName) async {
+
+  Future<void> uploadFile(String filePath, String fileName , String cloudPath) async {
     File file = File(filePath);
 
     try {
-      await storage.ref('user/${_auth.currentUser?.uid}').putFile(file);
+      await storage.ref(cloudPath).putFile(file);
     } on FirebaseException catch (e) {
+      debugPrint(e.toString());
+    } on Exception catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  Future<String> getFile() async {
+  Future<String> getFile(String folder , String fileName) async {
     firebase_storage.Reference result =
-        storage.ref('user').child(_auth.currentUser?.uid ?? '');
+        storage.ref(folder).child(fileName);
 
     String url = await result.getDownloadURL().then((value) {
-    
       return value.toString();
     }).catchError((error, stackrace) {
       debugPrint("error : $stackrace");
     });
     return url;
   }
-
-  
 }

@@ -1,9 +1,7 @@
-import 'package:brightfuture/Models/navigation_item.dart';
-import 'package:brightfuture/Screens/home_screen.dart';
-import 'package:brightfuture/Screens/profile_screen.dart';
-
 import 'package:flutter/material.dart';
-
+import '../Models/navigation_item.dart';
+import '../Screens/home_screen.dart';
+import '../Screens/profile_screen.dart';
 
 class BottomNav extends ChangeNotifier {
   int currentIndex = 0;
@@ -14,7 +12,8 @@ class BottomNav extends ChangeNotifier {
   }
 
   List<NavigationItem> navItems = [
-    NavigationItem(label: "Posts", icon: Icons.explore,route: const HomeScreen()),
+    NavigationItem(
+        label: "Posts", icon: Icons.explore, route: const HomeScreen()),
     NavigationItem(
       label: "Profile",
       icon: Icons.person,

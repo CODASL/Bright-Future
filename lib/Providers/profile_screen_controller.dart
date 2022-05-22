@@ -82,9 +82,9 @@ class ProfileScreenController extends ChangeNotifier {
                           showLoaderDialog(context);
                           
                           await storage
-                              .uploadFile(path.toString(), name.toString())
+                              .uploadFile(path.toString(), name.toString(),'user/${_auth.currentUser?.uid}')
                               .then((value) async {
-                            String? url = await storage.getFile().then((value){
+                            String? url = await storage.getFile('user',_auth.currentUser?.uid ?? '').then((value){
                               return value
                             });
 

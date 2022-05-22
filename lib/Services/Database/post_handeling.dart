@@ -1,38 +1,35 @@
 import 'package:brightfuture/Models/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PostHandling {
-  CollectionReference posts = FirebaseFirestore.instance.collection("posts");
-  Future<bool> addPost(Post post) async {
-    int docID = 0;
-    posts.doc((docID++).toString()).set({
+  static CollectionReference posts =
+      FirebaseFirestore.instance.collection("posts");
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  static Future<String?> addPost(Post post) async {
+    String? id = await posts.add({
       "body": post.postBody,
       "images": post.imgs,
-      "posted_by": post.user,
+      "posted_by": _auth.currentUser?.uid,
       "posted_date": post.postedDate,
-    }).then((value) {
+    }).then((DocumentReference<Object?> value) {
       debugPrint("Post Added");
-      return true;
-    }).catchError((error) {
-      debugPrint(error.toString());
-      return false;
+      return value.id;
     });
-    return false;
+
+    return id;
   }
 
-  Future<bool> updatePost(Post post) async {
-    DocumentReference docRef = posts.doc();
-    DocumentSnapshot docSnap = await docRef.get();
-    posts.doc().update({
-      "body": post.postBody,
-      "images": post.imgs,
-      "posted_by": post.user,
-      "posted_date": post.postedDate,
-    }).then((value) {
+  static Future<bool> updatePost(
+      {required String key,
+      required dynamic value,
+      required String ref}) async {
+    posts.doc(ref).update({key: value}).then((value) {
       return true;
-    }).onError((error, stackTrace) {
-      return false;
+    }).catchError((error, stackTrace) {
+      throw error;
     });
     return false;
   }

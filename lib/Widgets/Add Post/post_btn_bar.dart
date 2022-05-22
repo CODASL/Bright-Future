@@ -1,27 +1,33 @@
-import 'package:brightfuture/Models/screen_size.dart';
-import 'package:brightfuture/Widgets/Custom%20Button/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../Models/screen_size.dart';
+import '../../Providers/add_post_controller.dart';
+import '../Custom Button/custom_button.dart';
 
 class PostButtonBar extends StatelessWidget {
-  const PostButtonBar({Key? key}) : super(key: key);
+  final GlobalKey<FormState> formKey;
+  const PostButtonBar({Key? key, required this.formKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        CustomButton(
-            label: "Add Post",
-            height: 50,
-            minWidth: ScreenSize.width * 0.35,
-            radius: 20),
-        CustomButton(
-            onPressed: () {},
-            label: "Reset",
-            height: 50,
-            minWidth: ScreenSize.width * 0.35,
-            radius: 20),
-      ],
+    return Consumer<AddPostController>(
+      builder: (context, ctrl, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CustomButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    await ctrl.createPost(context);
+                  }
+                },
+                label: "Add Post",
+                height: 50,
+                minWidth: ScreenSize.width * 0.85,
+                radius: 20),
+          ],
+        );
+      },
     );
   }
 }

@@ -6,7 +6,7 @@ class Post {
   String? user;
   Timestamp? postedDate;
   String? postBody;
-  List<dynamic>? imgs;
+  List<String>? imgs;
 
   Post({
      this.user,
