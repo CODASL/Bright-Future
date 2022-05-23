@@ -9,8 +9,14 @@ class CustomTextField extends StatelessWidget {
   final String? suffixText;
   final void Function(String)? onChanged;
   final String? initialValue;
-
   final String? Function(String?)? validator;
+  final Color? fillColor;
+  final bool? filled;
+  final BorderSide? borderSide;
+  final Icon? prefixIcon;
+  final double? radius;
+
+  final String? hintText;
   const CustomTextField({
     Key? key,
     this.label,
@@ -22,6 +28,12 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.initialValue,
     this.validator,
+    this.fillColor,
+    this.filled,
+    this.radius,
+    this.borderSide,
+    this.hintText,
+    this.prefixIcon,
   }) : super(key: key);
 
   @override
@@ -35,8 +47,15 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       obscureText: isPassword,
       decoration: InputDecoration(
+        prefixIcon: prefixIcon,
+        hintText: hintText,
+        filled: filled,
+        fillColor: fillColor,
         labelText: label,
-        border: const OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderSide: borderSide ?? const BorderSide(),
+          borderRadius: BorderRadius.circular(radius ?? 0),
+        ),
         suffixText: suffixText,
         suffixStyle: TextStyle(
           color: Theme.of(context).primaryColor,

@@ -1,5 +1,6 @@
 import 'package:brightfuture/Providers/bottom_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../Models/screen_size.dart';
@@ -46,6 +47,7 @@ class _LoginState extends State<Login> {
                               child: Image.asset(logo),
                             ),
                             CustomTextField(
+                              prefixIcon: const Icon(FontAwesomeIcons.solidEnvelope),
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
                                   return "email can not be empty";
@@ -62,6 +64,7 @@ class _LoginState extends State<Login> {
                               height: 30,
                             ),
                             CustomTextField(
+                               prefixIcon: const Icon(FontAwesomeIcons.key),
                               validator: (password) {
                                 if (password == null || password.isEmpty) {
                                   return 'password can not be empty';
