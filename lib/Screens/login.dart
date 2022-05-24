@@ -1,17 +1,19 @@
-import 'package:brightfuture/Providers/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../Models/screen_size.dart';
+import '../Providers/bottom_nav.dart';
 import '../Providers/error_handler.dart';
 import '../Providers/login_state.dart';
 import '../Services/auth.dart';
 import '../Widgets/Custom Button/custom_button.dart';
 import '../Widgets/Custom Text Field/custom_textfield.dart';
+import '../Widgets/CustomText/custom_text.dart';
 import '../Widgets/custom_snackbar.dart';
 import '../Widgets/loading.dart';
 import '../constant/image.dart';
+import 'forgot_password.dart';
 import 'home.dart';
 import 'register.dart';
 
@@ -35,19 +37,20 @@ class _LoginState extends State<Login> {
               : SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SizedBox(
-                      //height: ScreenSize.height * 0.8,
-                      child: Form(
-                        key: _formKey,
+                    child: Form(
+                      key: _formKey,
+                      child: SizedBox(
+                        height: ScreenSize.height,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
                               height: ScreenSize.height * 0.3,
                               child: Image.asset(logo),
                             ),
                             CustomTextField(
-                              prefixIcon: const Icon(FontAwesomeIcons.solidEnvelope),
+                              prefixIcon:
+                                  const Icon(FontAwesomeIcons.solidEnvelope),
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
                                   return "email can not be empty";
@@ -64,7 +67,7 @@ class _LoginState extends State<Login> {
                               height: 30,
                             ),
                             CustomTextField(
-                               prefixIcon: const Icon(FontAwesomeIcons.key),
+                              prefixIcon: const Icon(FontAwesomeIcons.key),
                               validator: (password) {
                                 if (password == null || password.isEmpty) {
                                   return 'password can not be empty';
@@ -78,7 +81,11 @@ class _LoginState extends State<Login> {
                               label: 'Password',
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 20,
+                            ),
+                            forgotPassword(context),
+                            const SizedBox(
+                              height: 20,
                             ),
                             CustomButton(
                               onPressed: () async {
@@ -145,4 +152,23 @@ class _LoginState extends State<Login> {
       },
     );
   }
+}
+
+Widget forgotPassword(BuildContext context) {
+  return Column(
+    children: [
+      SizedBox(
+        height: ScreenSize.height * 0.03,
+      ),
+      CustomText(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const ForgotPassword()));
+        },
+        title: "Forgot Password? ",
+        fontWeight: FontWeight.w300,
+        fontSize: 17,
+      ),
+    ],
+  );
 }
