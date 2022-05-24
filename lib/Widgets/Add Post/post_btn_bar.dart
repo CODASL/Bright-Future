@@ -1,3 +1,4 @@
+import 'package:brightfuture/Providers/my_post_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/screen_size.dart';
@@ -18,6 +19,8 @@ class PostButtonBar extends StatelessWidget {
             CustomButton(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
+                    
+                    ctrl.setPostType(Provider.of<MyPostController>(context,listen: true).dropdownvalue);
                     await ctrl.createPost(context);
                   }
                 },

@@ -32,7 +32,7 @@ class Post {
       postedDate: map['posted_date'],
       postBody: map['body'] ?? '',
       images: List<String>.from(map['images']),
-      postType: map['post_type'],
+      postType: map['postType'],
     );
   }
 

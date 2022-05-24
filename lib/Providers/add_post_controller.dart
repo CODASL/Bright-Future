@@ -68,11 +68,14 @@ class AddPostController extends ChangeNotifier {
   createPost(BuildContext context) async {
     try {
       showLoaderDialog(context);
-      String? ref = await PostHandling.addPost(Post(
-              images: [],
-              postBody: postBody ?? '',
-              postedDate: Timestamp.now(), postType: ''))
-          .then((String? ref) {
+      String? ref = await PostHandling.addPost(
+        Post(
+          images: [],
+          postBody: postBody ?? '',
+          postedDate: Timestamp.now(),
+          postType: postType??'',
+        ),
+      ).then((String? ref) {
         return ref;
       });
 

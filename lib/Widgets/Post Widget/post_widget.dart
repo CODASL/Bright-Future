@@ -1,3 +1,7 @@
+import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
+import 'package:brightfuture/Widgets/loading.dart';
+import 'package:brightfuture/constant/colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -101,10 +105,31 @@ class PostBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      postBody,
-      textAlign: TextAlign.justify,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: ShowBodyText(bodyText: postBody),
     );
+  }
+}
+
+class ShowBodyText extends StatelessWidget {
+  final String bodyText;
+  const ShowBodyText({Key? key, required this.bodyText}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (bodyText.length > 100) {
+      return RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(text: bodyText.substring(0, 100)),
+            TextSpan(
+                style: TextStyle(color: primaryColor), text: "read more ...")
+          ],
+        ),
+      );
+    }
+    return CustomText(title: bodyText);
   }
 }
 
@@ -119,13 +144,18 @@ class PostImages extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, crossAxisSpacing: 3),
-      itemCount: 2,
+      itemCount: images.length,
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: ScreenSize.height * 0.2,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(images[index]), fit: BoxFit.cover)),
+        return CachedNetworkImage(
+          imageUrl: images[index],
+          imageBuilder: (context, imageProvider) => Container(
+            height: ScreenSize.height * 0.2,
+            decoration: BoxDecoration(
+              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            ),
+          ),
+          placeholder: (context, url) => const LoadingWidget(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         );
       },
     );

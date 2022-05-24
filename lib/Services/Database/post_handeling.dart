@@ -9,12 +9,8 @@ class PostHandling {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static Future<String?> addPost(Post post) async {
-    String? id = await posts.add({
-      "body": post.postBody,
-      "images": post.images,
-      "posted_by": _auth.currentUser?.uid,
-      "posted_date": post.postedDate,
-    }).then((DocumentReference<Object?> value) {
+    String? id =
+        await posts.add(post.toMap()).then((DocumentReference<Object?> value) {
       debugPrint("Post Added");
       return value.id;
     });
@@ -44,7 +40,7 @@ class PostHandling {
     return posts
         .orderBy('posted_date', descending: true)
         .where('posted_by', isEqualTo: uid)
-        .where('post_type', isEqualTo: postType)
+        .where('postType', isEqualTo: postType)
         .snapshots();
   }
 }

@@ -13,16 +13,14 @@ class GetPostIncludes extends StatelessWidget {
     return Consumer<AddPostController>(
       builder: (context, ctrl, child) {
         return Padding(
-          padding: EdgeInsets.only(
-            top: 40,
-            bottom: 40,
-            left: ScreenSize.width * 0.05,
-            right: ScreenSize.width * 0.05,
+          padding: EdgeInsets.symmetric(
+            vertical: ScreenSize.height * 0.03,
+            horizontal: ScreenSize.width * 0.05,
           ),
           child: CustomTextField(
             validator: (val) {
               if (val == null || val.length < 50) {
-                return "Body must have more than at least 50 characters ";
+                return "Body must have at least 50 characters ";
               }
               return null;
             },
@@ -31,8 +29,8 @@ class GetPostIncludes extends StatelessWidget {
             },
             label: "Body",
             isPassword: false,
-            maxLines: 9,
-            maxLength: 100,
+            maxLines: 8,
+            maxLength: 500,
           ),
         );
       },

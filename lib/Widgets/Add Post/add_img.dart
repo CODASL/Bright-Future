@@ -13,7 +13,7 @@ class AddImages extends StatelessWidget {
     return Consumer<AddPostController>(
       builder: (context, ctrl, child) {
         return SizedBox(
-          height: ScreenSize.height * 0.4,
+          height: ScreenSize.height * 0.3,
           width: ScreenSize.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
