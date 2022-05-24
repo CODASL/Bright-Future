@@ -1,3 +1,4 @@
+import 'package:brightfuture/Providers/home_screen_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'add_post_controller.dart';
@@ -33,5 +34,8 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<AddPostController>(
     create: (context) => AddPostController(),
-  )
+  ),
+  ChangeNotifierProvider<HomeScreenController>(
+    create: (context) => HomeScreenController(),
+  ),
 ];

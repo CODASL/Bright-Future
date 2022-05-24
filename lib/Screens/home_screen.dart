@@ -1,70 +1,108 @@
-import 'package:brightfuture/Models/screen_size.dart';
-import 'package:brightfuture/Widgets/Custom%20Text%20Field/custom_textfield.dart';
-import 'package:brightfuture/Widgets/loading.dart';
+import 'package:brightfuture/Providers/home_screen_controller.dart';
+import 'package:brightfuture/constant/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../Models/post.dart';
+import 'package:provider/provider.dart';
+import '../Models/screen_size.dart';
 import '../Services/Database/post_handeling.dart';
+import '../Widgets/Custom Text Field/custom_textfield.dart';
 import '../Widgets/CustomText/custom_text.dart';
 import '../Widgets/Post Widget/post_widget.dart';
+import '../Widgets/loading.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: ScreenSize.height * 0.03,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: ScreenSize.width * 0.02,
-          ),
-          child: CustomTextField(
-            prefixIcon: const Icon(FontAwesomeIcons.search
+    return Consumer<HomeScreenController>(
+      builder: (context, ctrl, child) {
+        return Column(
+          children: [
+            SizedBox(
+              height: ScreenSize.height * 0.03,
             ),
-            hintText: 'Search posts',
-            borderSide: BorderSide.none,
-            radius: ScreenSize.width * 0.5,
-            filled: true,
-            fillColor: const Color(0xffeeeeee),
+            PostSearchTextField(
+              ctrl: ctrl,
+            ),
+            SizedBox(
+              height: ScreenSize.height * 0.03,
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream: PostHandling.getPosts(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: CustomText(title: "Something went wrong"),
+                  );
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const LoadingWidget();
+                }
+
+                ctrl.loadPosts(snapshot);
+                if (ctrl.foundData.isNotEmpty) {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: ctrl.foundData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return EntirePost(
+                        post: ctrl.foundData[index].post,
+                        ref: ctrl.foundData[index].ref,
+                      );
+                    },
+                  );
+                } else {
+                  return SizedBox(
+                    height: ScreenSize.height * 0.6,
+                    child: const Align(
+                        alignment: Alignment.center,
+                        child: CustomText(title: "No search result found !")),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class PostSearchTextField extends StatelessWidget {
+  final HomeScreenController ctrl;
+  const PostSearchTextField({Key? key, required this.ctrl}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: ScreenSize.width * 0.03,
+      ),
+      child: CustomTextField(
+        suffix: SizedBox(
+          width: ScreenSize.width*0.15,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const CustomText(title: "Filter"),
+              Icon(Icons.filter_alt_rounded, color: primaryColor),
+            ],
           ),
         ),
-        SizedBox(
-          height: ScreenSize.height * 0.03,
-        ),
-        StreamBuilder<QuerySnapshot>(
-          stream: PostHandling.getPosts(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Center(
-                child: CustomText(title: "Something went wrong"),
-              );
-            }
-
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingWidget();
-            }
-
-            return ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
-                return EntirePost(
-                  post: Post.fromMap(data),
-                  ref: document.reference.id,
-                );
-              }).toList(),
-            );
-          },
-        ),
-      ],
+        onChanged: (String? searchText) {
+          ctrl.searchPosts(searchText);
+        },
+        prefixIcon: const Icon(Icons.search),
+        hintText: 'Search by user name',
+        borderSide: BorderSide.none,
+        radius: ScreenSize.width * 0.5,
+        filled: true,
+        fillColor: const Color(0xffeeeeee),
+      ),
     );
   }
 }

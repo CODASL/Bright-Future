@@ -65,8 +65,9 @@ class CustomFloatingActionButton extends StatelessWidget {
             onPressed: () async {
               Uri _url = Uri.parse(
                   "tel:${Provider.of<ProfileScreenController>(context, listen: false).user?.phoneNumber.toString()}");
+
               try {
-                await canLaunchUrl(_url);
+                await launchUrl(_url);
               } catch (e) {
                 debugPrint('$e');
                 debugPrint('Could not launch $_url');

@@ -1,17 +1,19 @@
 import 'dart:io';
-import 'package:brightfuture/Screens/faq.dart';
-import 'package:brightfuture/Screens/home.dart';
-import 'package:brightfuture/Screens/mypost.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../Models/drawer_tile.dart';
+import '../Screens/about_us.dart';
+import '../Screens/faq.dart';
+import '../Screens/home.dart';
+import '../Screens/mypost.dart';
 
 class DrawerTileChange extends ChangeNotifier {
   List<DrawerTileModel> drawerTileData = [
     DrawerTileModel(icon: FontAwesomeIcons.home, title: "Home"),
     DrawerTileModel(icon: FontAwesomeIcons.newspaper, title: "My Posts"),
     DrawerTileModel(icon: FontAwesomeIcons.question, title: "FAQ"),
+    DrawerTileModel(icon: FontAwesomeIcons.userFriends, title: "About us"),
     DrawerTileModel(icon: FontAwesomeIcons.shareAlt, title: "Share"),
     DrawerTileModel(icon: FontAwesomeIcons.signOutAlt, title: "Exit"),
   ];
@@ -29,24 +31,24 @@ class DrawerTileChange extends ChangeNotifier {
 
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return const Home();
-        }));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const Home()));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return const MyPost();
-        }));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const MyPost()));
         break;
       case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return const FAQ();
-        }));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const FAQ()));
         break;
       case 3:
-        share();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const AboutUs()));
         break;
       case 4:
+        share();
+        break;
+      case 5:
         exit(0);
       default:
     }

@@ -15,7 +15,8 @@ class CustomTextField extends StatelessWidget {
   final BorderSide? borderSide;
   final Icon? prefixIcon;
   final double? radius;
-
+  final double? width;
+  final Widget? suffix;
   final String? hintText;
   const CustomTextField({
     Key? key,
@@ -34,31 +35,37 @@ class CustomTextField extends StatelessWidget {
     this.borderSide,
     this.hintText,
     this.prefixIcon,
+    this.width,
+    this.suffix,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      initialValue: initialValue,
-      onChanged: onChanged,
-      maxLength: maxLength,
-      maxLines: maxLines ?? 1,
-      controller: controller,
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        prefixIcon: prefixIcon,
-        hintText: hintText,
-        filled: filled,
-        fillColor: fillColor,
-        labelText: label,
-        border: OutlineInputBorder(
-          borderSide: borderSide ?? const BorderSide(),
-          borderRadius: BorderRadius.circular(radius ?? 0),
-        ),
-        suffixText: suffixText,
-        suffixStyle: TextStyle(
-          color: Theme.of(context).primaryColor,
+    return SizedBox(
+      width: width,
+      child: TextFormField(
+        validator: validator,
+        initialValue: initialValue,
+        onChanged: onChanged,
+        maxLength: maxLength,
+        maxLines: maxLines ?? 1,
+        controller: controller,
+        obscureText: isPassword,
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          hintText: hintText,
+          filled: filled,
+          fillColor: fillColor,
+          labelText: label,
+          border: OutlineInputBorder(
+            borderSide: borderSide ?? const BorderSide(),
+            borderRadius: BorderRadius.circular(radius ?? 0),
+          ),
+          suffix: suffix,
+          suffixText: suffixText,
+          suffixStyle: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ),
     );
