@@ -84,13 +84,17 @@ class PostSearchTextField extends StatelessWidget {
       ),
       child: CustomTextField(
         suffix: SizedBox(
-          width: ScreenSize.width*0.15,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const CustomText(title: "Filter"),
-              Icon(Icons.filter_alt_rounded, color: primaryColor),
-            ],
+          width: ScreenSize.width * 0.15,
+          child: InkWell(
+            onTap: (() => showDialog(
+                context: context, builder: (_) => const AlertDialog())),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const CustomText(title: "Filter"),
+                Icon(Icons.filter_alt_rounded, color: primaryColor),
+              ],
+            ),
           ),
         ),
         onChanged: (String? searchText) {
