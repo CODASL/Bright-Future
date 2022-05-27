@@ -1,3 +1,5 @@
+import 'package:brightfuture/Animations/page_transition_slide.dart';
+import 'package:brightfuture/Screens/post_screen.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:brightfuture/Widgets/loading.dart';
 import 'package:brightfuture/constant/colors.dart';
@@ -23,25 +25,30 @@ class EntirePost extends StatelessWidget {
       padding: EdgeInsets.all(
         ScreenSize.width * 0.02,
       ),
-      child: Card(
-        elevation: 5,
-        child: Padding(
-          padding: EdgeInsets.all(ScreenSize.width * 0.02),
-          child: Column(
-            children: [
-              PostHeader(
-                uid: post.postedBy,
-                postedDate: post.postedDate,
-                ref: ref,
-              ),
-              PostBody(postBody: post.postBody),
-              const SizedBox(
-                height: 15,
-              ),
-              post.images.isNotEmpty
-                  ? PostImages(images: post.images)
-                  : const SizedBox(),
-            ],
+      child: InkWell(
+        onTap: () {
+          Navigator.push(context, SlideTransition1(PostScreen(post: post)));
+        },
+        child: Card(
+          elevation: 5,
+          child: Padding(
+            padding: EdgeInsets.all(ScreenSize.width * 0.02),
+            child: Column(
+              children: [
+                PostHeader(
+                  uid: post.postedBy,
+                  postedDate: post.postedDate,
+                  ref: ref,
+                ),
+                PostBody(postBody: post.postBody),
+                const SizedBox(
+                  height: 15,
+                ),
+                post.images.isNotEmpty
+                    ? PostImages(images: post.images)
+                    : const SizedBox(),
+              ],
+            ),
           ),
         ),
       ),

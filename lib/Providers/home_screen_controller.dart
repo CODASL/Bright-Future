@@ -1,6 +1,6 @@
+import 'package:brightfuture/Services/Database/post_handeling.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../Models/post.dart';
 import '../Models/post_with_ref.dart';
 import '../Models/user_data.dart';
@@ -12,11 +12,6 @@ class HomeScreenController extends ChangeNotifier {
   UserData? user;
   String? searchText;
 
-  setSearchText(String? searchText) {
-    this.searchText = searchText;
-    notifyListeners();
-  }
-
   loadPosts(AsyncSnapshot<QuerySnapshot> snapshot) {
     posts = snapshot.data!.docs.map((DocumentSnapshot document) {
       Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
@@ -27,6 +22,28 @@ class HomeScreenController extends ChangeNotifier {
         user: user,
       );
     }).toList();
+  }
+
+  loadAllPosts() async {
+    try {
+      posts = await PostHandling.getAllPost().then((QuerySnapshot snapshot) {
+        return snapshot.docs.map((QueryDocumentSnapshot documentSnapshot) {
+          Map<String, dynamic> data =
+              documentSnapshot.data()! as Map<String, dynamic>;
+          getUser(documentSnapshot.get('posted_by'));
+          return PostWithRef(
+            post: Post.fromMap(data),
+            ref: documentSnapshot.id,
+            user: user,
+          );
+        }).toList();
+      });
+
+      foundData = posts;
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   searchPosts(String? text) {

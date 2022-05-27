@@ -1,4 +1,7 @@
+import 'package:brightfuture/Animations/page_transition_slide.dart';
+import 'package:brightfuture/Providers/google_map_controller.dart';
 import 'package:brightfuture/Providers/my_post_controller.dart';
+import 'package:brightfuture/Screens/google_map.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:brightfuture/constant/colors.dart';
 import 'package:flutter/material.dart';
@@ -84,20 +87,25 @@ class AddLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: ScreenSize.height * 0.03,
-        left: ScreenSize.width * 0.05,
-        right: ScreenSize.width * 0.05,
-      ),
-      child: ListTile(
-        onTap: () {},
-        leading: Icon(
-          FontAwesomeIcons.locationArrow,
-          color: primaryColor,
-        ),
-        title: const CustomText(title: "Select Location"),
-      ),
+    return Consumer<GoogleMapCtrl>(
+      builder: (context, ctrl, child) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: ScreenSize.height * 0.03,
+            left: ScreenSize.width * 0.05,
+            right: ScreenSize.width * 0.05,
+          ),
+          child: ListTile(
+            onTap: () =>
+                Navigator.push(context, SlideTransition1(const ShowMap())),
+            leading: Icon(
+              FontAwesomeIcons.locationArrow,
+              color: primaryColor,
+            ),
+            title: CustomText(title: ctrl.address),
+          ),
+        );
+      },
     );
   }
 }

@@ -2,6 +2,8 @@
     package="com.coda.brightfuture">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <queries>
   <!-- If your app opens https URLs -->
   <intent>
@@ -27,6 +29,8 @@
    <application
         android:label="Bright Future"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAkySTGSClBtCGkJoaiqyWc-LvaijTKYtE"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -43,4 +43,25 @@ class PostHandling {
         .where('postType', isEqualTo: postType)
         .snapshots();
   }
+
+  static Future<QuerySnapshot> getAllPost() async {
+    return await posts
+        .orderBy('posted_date', descending: true)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      return snapshot;
+    });
+  }
+
+  static Stream<List<Post>> listOfPosts({String? uid, String? postType}) {
+    return posts
+        .orderBy('posted_date', descending: true)
+        .where('posted_by', isEqualTo: uid)
+        .where('postType', isEqualTo: postType)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs
+            .map((DocumentSnapshot snapshot) =>
+                Post.fromMap(snapshot.data() as Map<String, dynamic>))
+            .toList());
+  }
 }

@@ -1,11 +1,14 @@
-import 'package:brightfuture/Providers/home_screen_controller.dart';
+import 'package:brightfuture/Providers/google_map_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import '../Models/post.dart';
+import '../Services/Database/post_handeling.dart';
 import 'add_post_controller.dart';
 import 'bottom_nav.dart';
 import 'check_connectivity.dart';
 import 'drawer_tile_change.dart';
 import 'error_handler.dart';
+import 'home_screen_controller.dart';
 import 'login_state.dart';
 import 'my_post_controller.dart';
 import 'profile_screen_controller.dart';
@@ -37,5 +40,12 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<HomeScreenController>(
     create: (context) => HomeScreenController(),
+  ),
+  StreamProvider<List<Post>>.value(
+    value: PostHandling.listOfPosts(),
+    initialData: const [],
+  ),
+  ChangeNotifierProvider<GoogleMapCtrl>(
+    create: (context) => GoogleMapCtrl(),
   ),
 ];

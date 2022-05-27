@@ -1,17 +1,31 @@
-import 'package:brightfuture/Providers/home_screen_controller.dart';
-import 'package:brightfuture/constant/colors.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Models/screen_size.dart';
+import '../Providers/home_screen_controller.dart';
 import '../Services/Database/post_handeling.dart';
 import '../Widgets/Custom Text Field/custom_textfield.dart';
 import '../Widgets/CustomText/custom_text.dart';
 import '../Widgets/Post Widget/post_widget.dart';
 import '../Widgets/loading.dart';
+import '../constant/colors.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final ctrl = Provider.of<HomeScreenController>(context, listen: false);
+    ctrl.loadAllPosts();
+    
+  }
 
   @override
   Widget build(BuildContext context) {

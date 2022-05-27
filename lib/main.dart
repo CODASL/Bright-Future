@@ -1,12 +1,21 @@
+import 'package:brightfuture/constant/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'Providers/check_connectivity.dart';
 import 'Providers/provider.dart';
 import 'Screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+  
+    statusBarColor: primaryColor, // status bar color
+  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(
     MultiProvider(
       providers: providers,
@@ -23,16 +32,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> initializeDefault() async {
-    FirebaseApp app = await Firebase.initializeApp();
-    debugPrint('Initialized default app $app');
-  }
-
   @override
   void initState() {
     super.initState();
-    initializeDefault();
-    
+
     final connection = Provider.of<CheckConnectivity>(context, listen: false);
     connection.tryConnection();
     connection.checkConnectivityState();
