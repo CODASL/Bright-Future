@@ -1,7 +1,10 @@
+import 'package:brightfuture/Providers/google_map_controller.dart';
 import 'package:brightfuture/Screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import '../Animations/page_transition_slide.dart';
 import '../Models/post.dart';
 import '../Services/Database/post_handeling.dart';
@@ -68,13 +71,18 @@ class AddPostController extends ChangeNotifier {
   createPost(BuildContext context) async {
     try {
       showLoaderDialog(context);
+      final location = Provider.of<GoogleMapCtrl>(context, listen: false);
       String? ref = await PostHandling.addPost(
         Post(
-          images: [],
-          postBody: postBody ?? '',
-          postedDate: Timestamp.now(),
-          postType: postType??'',
-        ),
+            location: {
+              "lat": location.lt?.latitude ?? 0.0,
+              "lng": location.lt?.longitude ?? 0.0,
+            },
+            images: [],
+            postBody: postBody ?? '',
+            postedDate: Timestamp.now(),
+            postType: postType ?? '',
+            postedBy: FirebaseAuth.instance.currentUser?.uid),
       ).then((String? ref) {
         return ref;
       });

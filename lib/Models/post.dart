@@ -8,6 +8,7 @@ class Post {
   String postBody;
   List<String> images;
   String postType;
+  Map<String, double> location;
 
   Post({
     this.postedBy,
@@ -15,6 +16,7 @@ class Post {
     required this.postBody,
     required this.images,
     required this.postType,
+    required this.location,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,16 +25,19 @@ class Post {
       'postedDate': postedDate,
       'postBody': postBody,
       'images': images,
+      'postType': postType,
+      'location': location,
     };
   }
 
   factory Post.fromMap(Map<String, dynamic> map) {
     return Post(
-      postedBy: map['posted_by'] ?? '',
-      postedDate: map['posted_date'],
-      postBody: map['body'] ?? '',
+      postedBy: map['postedBy'],
+      postedDate: map['postedDate'],
+      postBody: map['postBody'] ?? '',
       images: List<String>.from(map['images']),
-      postType: map['postType'],
+      postType: map['postType'] ?? '',
+      location: Map<String, double>.from(map['location']),
     );
   }
 

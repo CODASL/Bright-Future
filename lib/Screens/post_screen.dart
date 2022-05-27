@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -26,18 +25,27 @@ class PostScreen extends StatelessWidget {
           SizedBox(
             height: ScreenSize.height * 0.02,
           ),
-          SizedBox(
-            height: ScreenSize.height * 0.4,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: post.images.length,
-              itemBuilder: (BuildContext context, int index) {
-                return PostImageWidget(imageUrl: post.images[index]);
-              },
-            ),
-          ),
+          post.images.length == 1
+              ? SizedBox(
+                  height: ScreenSize.height * 0.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      PostImageWidget(imageUrl: post.images[0]),
+                    ],
+                  ),
+                )
+              : post.images.length == 2
+                  ? SizedBox(
+                      height: ScreenSize.height * 0.4,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          PostImageWidget(imageUrl: post.images[1]),
+                        ],
+                      ),
+                    )
+                  : const SizedBox(),
           UserTile(
             post: post,
           ),

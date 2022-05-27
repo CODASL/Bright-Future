@@ -20,7 +20,7 @@ class PostButtonBar extends StatelessWidget {
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     
-                    ctrl.setPostType(Provider.of<MyPostController>(context,listen: true).dropdownvalue);
+                    ctrl.setPostType(Provider.of<MyPostController>(context,listen: false).dropdownvalue);
                     await ctrl.createPost(context);
                   }
                 },

@@ -15,7 +15,7 @@ class HomeScreenController extends ChangeNotifier {
   loadPosts(AsyncSnapshot<QuerySnapshot> snapshot) {
     posts = snapshot.data!.docs.map((DocumentSnapshot document) {
       Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-      getUser(document.get('posted_by'));
+      getUser(document.get('postedBy'));
       return PostWithRef(
         post: Post.fromMap(data),
         ref: document.id,
@@ -30,7 +30,7 @@ class HomeScreenController extends ChangeNotifier {
         return snapshot.docs.map((QueryDocumentSnapshot documentSnapshot) {
           Map<String, dynamic> data =
               documentSnapshot.data()! as Map<String, dynamic>;
-          getUser(documentSnapshot.get('posted_by'));
+          getUser(documentSnapshot.get('postedBy'));
           return PostWithRef(
             post: Post.fromMap(data),
             ref: documentSnapshot.id,

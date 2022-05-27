@@ -38,15 +38,15 @@ class PostHandling {
 
   static Stream<QuerySnapshot> getPosts({String? uid, String? postType}) {
     return posts
-        .orderBy('posted_date', descending: true)
-        .where('posted_by', isEqualTo: uid)
+        .orderBy('postedDate', descending: true)
+        .where('postedBy', isEqualTo: uid)
         .where('postType', isEqualTo: postType)
         .snapshots();
   }
 
   static Future<QuerySnapshot> getAllPost() async {
     return await posts
-        .orderBy('posted_date', descending: true)
+        .orderBy('postedDate', descending: true)
         .get()
         .then((QuerySnapshot snapshot) {
       return snapshot;
@@ -55,8 +55,8 @@ class PostHandling {
 
   static Stream<List<Post>> listOfPosts({String? uid, String? postType}) {
     return posts
-        .orderBy('posted_date', descending: true)
-        .where('posted_by', isEqualTo: uid)
+        .orderBy('postedDate', descending: true)
+        .where('postedBy', isEqualTo: uid)
         .where('postType', isEqualTo: postType)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs

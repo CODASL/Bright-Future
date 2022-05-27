@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     final ctrl = Provider.of<HomeScreenController>(context, listen: false);
     ctrl.loadAllPosts();
-    
   }
 
   @override
@@ -55,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const LoadingWidget();
                 }
-
+                print(snapshot.data?.docs.length);
                 ctrl.loadPosts(snapshot);
                 if (ctrl.foundData.isNotEmpty) {
                   return ListView.builder(
