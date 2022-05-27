@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const LoadingWidget();
                 }
-                print(snapshot.data?.docs.length);
+                
                 ctrl.loadPosts(snapshot);
                 if (ctrl.foundData.isNotEmpty) {
                   return ListView.builder(

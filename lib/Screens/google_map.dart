@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +25,7 @@ class _ShowMapState extends State<ShowMap> {
               onPressed: () {
                 ctrl.getAddressFromLatLong(
                     ctrl.lt ?? GoogleMapCtrl.kInitialPostion.target);
+                Navigator.pop(context);
               },
               label: const CustomText(title: "Add Location")),
           body: GoogleMap(

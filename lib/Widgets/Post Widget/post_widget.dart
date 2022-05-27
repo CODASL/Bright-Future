@@ -2,15 +2,12 @@ import 'package:brightfuture/Animations/page_transition_slide.dart';
 import 'package:brightfuture/Screens/post_screen.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:brightfuture/Widgets/loading.dart';
-import 'package:brightfuture/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../Models/post.dart';
 import '../../Models/screen_size.dart';
-import '../../Providers/my_post_controller.dart';
 import '../../Services/Database/user_handeling.dart';
 
 class EntirePost extends StatelessWidget {
@@ -56,7 +53,7 @@ class EntirePost extends StatelessWidget {
   }
 }
 
-class PostHeader extends StatelessWidget {
+class PostHeader extends StatefulWidget {
   final String? uid;
   final Timestamp postedDate;
   final String ref;
@@ -68,10 +65,15 @@ class PostHeader extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<PostHeader> createState() => _PostHeaderState();
+}
+
+class _PostHeaderState extends State<PostHeader> {
+  @override
   Widget build(BuildContext context) {
     const menuItems = ['Update', 'Delete'];
     return StreamBuilder<QuerySnapshot>(
-      stream: UserHandling.getUserFieldValue(uid),
+      stream: UserHandling.getUserFieldValue(widget.uid),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         String? photoUrl = snapshot.data?.docs[0].get('photoUrl');
         String? name = snapshot.data?.docs[0].get('fullName');
@@ -82,14 +84,11 @@ class PostHeader extends StatelessWidget {
                     backgroundImage: NetworkImage(photoUrl),
                   ),
             title: Text(name ?? "Loading...."),
-            subtitle: Text(postedDate.toDate().toString()),
-            trailing: uid == FirebaseAuth.instance.currentUser!.uid
+            subtitle: Text(widget.postedDate.toDate().toString()),
+            trailing: widget.uid == FirebaseAuth.instance.currentUser!.uid
                 ? PopupMenuButton<String>(
                     onSelected: (String val) {
-                      if (val == "Delete") {
-                        Provider.of<MyPostController>(context, listen: false)
-                            .deletePost(ref);
-                      }
+                      if (val == "Delete") {}
                     },
                     itemBuilder: (BuildContext context) {
                       return menuItems.map((val) {
@@ -114,29 +113,8 @@ class PostBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: ShowBodyText(bodyText: postBody),
+      child: CustomText(title: postBody),
     );
-  }
-}
-
-class ShowBodyText extends StatelessWidget {
-  final String bodyText;
-  const ShowBodyText({Key? key, required this.bodyText}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (bodyText.length > 100) {
-      return RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(text: bodyText.substring(0, 100)),
-            TextSpan(
-                style: TextStyle(color: primaryColor), text: "read more ...")
-          ],
-        ),
-      );
-    }
-    return CustomText(title: bodyText);
   }
 }
 

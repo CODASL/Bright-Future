@@ -1,3 +1,4 @@
+import 'package:brightfuture/Screens/show_location.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import '../Services/Database/user_handeling.dart';
 import '../Widgets/CustomText/custom_text.dart';
 import '../constant/colors.dart';
 import '../constant/image.dart';
-import 'google_map.dart';
 
 class PostScreen extends StatelessWidget {
   final Post post;
@@ -55,7 +55,7 @@ class PostScreen extends StatelessWidget {
           PostTypeTile(
             postType: post.postType,
           ),
-          const LocationTile(),
+          LocationTile(post: post),
         ],
       )),
     );
@@ -63,7 +63,8 @@ class PostScreen extends StatelessWidget {
 }
 
 class LocationTile extends StatelessWidget {
-  const LocationTile({Key? key}) : super(key: key);
+  final Post post;
+  const LocationTile({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +76,14 @@ class LocationTile extends StatelessWidget {
         title: const CustomText(
           title: "Location",
         ),
-        subtitle:
-            const CustomText(title: "74/A , sudarma road , katuwala , colombo"),
+        subtitle: CustomText(title: post.address),
         trailing: IconButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return const ShowMap();
+              return ShowLocation(
+                lat: post.location['lat'] ?? 0.0,
+                lng: post.location['lng'] ?? 0.0,
+              );
             }));
           },
           icon: Icon(

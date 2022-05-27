@@ -1,12 +1,11 @@
 import 'package:brightfuture/Models/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PostHandling {
   static CollectionReference posts =
       FirebaseFirestore.instance.collection("posts");
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
   static Future<String?> addPost(Post post) async {
     String? id =

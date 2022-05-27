@@ -1,5 +1,3 @@
-import 'package:brightfuture/Providers/google_map_controller.dart';
-import 'package:brightfuture/Screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,10 +5,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../Animations/page_transition_slide.dart';
 import '../Models/post.dart';
+import '../Screens/home.dart';
 import '../Services/Database/post_handeling.dart';
 import '../Services/storage.dart';
 import '../Widgets/custom_snackbar.dart';
 import '../Widgets/loading_dialog.dart';
+import 'google_map_controller.dart';
 
 class AddPostController extends ChangeNotifier {
   Map<String, XFile?> images = {};
@@ -72,8 +72,10 @@ class AddPostController extends ChangeNotifier {
     try {
       showLoaderDialog(context);
       final location = Provider.of<GoogleMapCtrl>(context, listen: false);
+      print(location.address);
       String? ref = await PostHandling.addPost(
         Post(
+            address: location.address,
             location: {
               "lat": location.lt?.latitude ?? 0.0,
               "lng": location.lt?.longitude ?? 0.0,
@@ -94,6 +96,15 @@ class AddPostController extends ChangeNotifier {
       Navigator.pushReplacement(context, SlideTransition1(const Home()));
     } on Exception catch (e) {
       Navigator.pop(context);
+      debugPrint(e.toString());
+    }
+  }
+
+  deletePost(String docid) async {
+    try {
+      await PostHandling.deletePost(docid);
+      notifyListeners();
+    } on Exception catch (e) {
       debugPrint(e.toString());
     }
   }

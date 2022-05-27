@@ -9,6 +9,7 @@ class Post {
   List<String> images;
   String postType;
   Map<String, double> location;
+  String address;
 
   Post({
     this.postedBy,
@@ -17,6 +18,7 @@ class Post {
     required this.images,
     required this.postType,
     required this.location,
+    required this.address,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,6 +29,7 @@ class Post {
       'images': images,
       'postType': postType,
       'location': location,
+      'address': address
     };
   }
 
@@ -38,6 +41,7 @@ class Post {
       images: List<String>.from(map['images']),
       postType: map['postType'] ?? '',
       location: Map<String, double>.from(map['location']),
+      address: map['address'] ?? '',
     );
   }
 
