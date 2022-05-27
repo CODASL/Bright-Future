@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 class UserHandling {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final CollectionReference _users =
+      FirebaseFirestore.instance.collection('users');
   static Future<void> adduser(
       {required AppUser user, required String uid}) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -60,5 +62,13 @@ class UserHandling {
         .snapshots();
   }
 
-  
+  static Stream<List<UserData>> getThisUser() {
+    return _users
+        .where('uid', isEqualTo: _auth.currentUser?.uid)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs
+            .map((DocumentSnapshot snapshot) =>
+                UserData.fromMap(snapshot.data() as Map<String, dynamic>))
+            .toList());
+  }
 }

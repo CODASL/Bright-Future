@@ -1,6 +1,8 @@
 import 'package:brightfuture/Models/faq.dart';
+import 'package:brightfuture/Models/user_data.dart';
 import 'package:brightfuture/Providers/faq_controller.dart';
 import 'package:brightfuture/Services/Database/faqs_handeling.dart';
+import 'package:brightfuture/Services/Database/user_handeling.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -55,6 +57,10 @@ List<SingleChildWidget> providers = [
   ),
   StreamProvider<List<FAQ>>.value(
     value: FAQsHandeling.listOfFaqs(),
+    initialData: const [],
+  ),
+  StreamProvider<List<UserData>>.value(
+    value: UserHandling.getThisUser(),
     initialData: const [],
   ),
   ChangeNotifierProvider<GoogleMapCtrl>(

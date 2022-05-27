@@ -44,6 +44,7 @@ class UserData {
       'email': email,
       'phoneNumber': phoneNumber,
       'uid': uid,
+      'photoUrl': photoUrl
     };
   }
 

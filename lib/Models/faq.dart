@@ -1,27 +1,25 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-
 class FAQ {
   String title;
   String subtitle;
+  Map<String, dynamic>? userData;
+
   FAQ({
     required this.title,
     required this.subtitle,
+    required this.userData,
   });
 
-
   Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'subtitle': subtitle,
-    };
+    return {'title': title, 'subtitle': subtitle, 'userData': userData};
   }
 
   factory FAQ.fromMap(Map<String, dynamic> map) {
     return FAQ(
       title: map['title'] ?? '',
       subtitle: map['subtitle'] ?? '',
+      userData: Map<String, dynamic>.from(map['userData']),
     );
   }
 

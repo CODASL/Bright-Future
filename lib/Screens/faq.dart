@@ -8,6 +8,7 @@ import 'package:brightfuture/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Models/screen_size.dart';
+import '../Models/user_data.dart';
 import '../Widgets/CustomText/custom_text.dart';
 
 class FAQScreen extends StatelessWidget {
@@ -91,7 +92,18 @@ class FAQTile extends StatelessWidget {
             SizedBox(
               height: ScreenSize.height * 0.01,
             ),
-            CustomText(title: faq.subtitle)
+            CustomText(title: faq.subtitle),
+            SizedBox(
+              height: ScreenSize.height * 0.01,
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.person,
+                color: primaryColor,
+              ),
+              title: const CustomText(title: "Asked By "),
+              subtitle: CustomText(title: "${faq.userData?['fullName']}"),
+            )
           ],
         ),
       ),
@@ -110,6 +122,7 @@ class _AddFaqState extends State<AddFaq> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    List<UserData>? users = FAQController.loadUsers(context);
     return Consumer<FAQController>(
       builder: (context, ctrl, child) {
         return Form(
@@ -139,7 +152,9 @@ class _AddFaqState extends State<AddFaq> {
                       CustomButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            ctrl.createFaq(context);
+                            if (users != null) {
+                              ctrl.createFaq(context, users);
+                            }
                           }
                         },
                         label: "Ask",
