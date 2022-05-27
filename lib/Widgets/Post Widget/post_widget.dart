@@ -1,4 +1,5 @@
 import 'package:brightfuture/Animations/page_transition_slide.dart';
+import 'package:brightfuture/Providers/add_post_controller.dart';
 import 'package:brightfuture/Screens/post_screen.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:brightfuture/Widgets/loading.dart';
@@ -6,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../Models/post.dart';
 import '../../Models/screen_size.dart';
 import '../../Services/Database/user_handeling.dart';
@@ -88,7 +90,10 @@ class _PostHeaderState extends State<PostHeader> {
             trailing: widget.uid == FirebaseAuth.instance.currentUser!.uid
                 ? PopupMenuButton<String>(
                     onSelected: (String val) {
-                      if (val == "Delete") {}
+                      if (val == "Delete") {
+                        Provider.of<AddPostController>(context, listen: false)
+                            .deletePost(widget.ref, context);
+                      }
                     },
                     itemBuilder: (BuildContext context) {
                       return menuItems.map((val) {

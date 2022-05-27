@@ -1,3 +1,4 @@
+import 'package:brightfuture/Providers/home_screen_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -72,7 +73,6 @@ class AddPostController extends ChangeNotifier {
     try {
       showLoaderDialog(context);
       final location = Provider.of<GoogleMapCtrl>(context, listen: false);
-      print(location.address);
       String? ref = await PostHandling.addPost(
         Post(
             address: location.address,
@@ -100,9 +100,12 @@ class AddPostController extends ChangeNotifier {
     }
   }
 
-  deletePost(String docid) async {
+  deletePost(String docid , BuildContext context) async {
     try {
       await PostHandling.deletePost(docid);
+      Provider.of<HomeScreenController>(context, listen: false)
+          .foundData
+          .removeWhere((element) => element.ref == docid);
       notifyListeners();
     } on Exception catch (e) {
       debugPrint(e.toString());
