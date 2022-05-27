@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:brightfuture/Screens/faq.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../Models/drawer_tile.dart';
 import '../Screens/about_us.dart';
-import '../Screens/faq.dart';
+
 import '../Screens/home.dart';
 import '../Screens/mypost.dart';
 
@@ -39,7 +40,7 @@ class DrawerTileChange extends ChangeNotifier {
             context, MaterialPageRoute(builder: (_) => const MyPost()));
         break;
       case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const FAQ()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const FAQScreen()));
         break;
       case 3:
         Navigator.push(

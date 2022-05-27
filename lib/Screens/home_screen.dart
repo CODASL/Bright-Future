@@ -8,7 +8,6 @@ import '../Widgets/Custom Text Field/custom_textfield.dart';
 import '../Widgets/CustomText/custom_text.dart';
 import '../Widgets/Post Widget/post_widget.dart';
 import '../Widgets/loading.dart';
-import '../constant/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -53,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const LoadingWidget();
                 }
-                
+
                 ctrl.loadPosts(snapshot);
                 if (ctrl.foundData.isNotEmpty) {
                   return ListView.builder(
@@ -95,20 +94,6 @@ class PostSearchTextField extends StatelessWidget {
         horizontal: ScreenSize.width * 0.03,
       ),
       child: CustomTextField(
-        suffix: SizedBox(
-          width: ScreenSize.width * 0.15,
-          child: InkWell(
-            onTap: (() => showDialog(
-                context: context, builder: (_) => const AlertDialog())),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const CustomText(title: "Filter"),
-                Icon(Icons.filter_alt_rounded, color: primaryColor),
-              ],
-            ),
-          ),
-        ),
         onChanged: (String? searchText) {
           ctrl.searchPosts(searchText);
         },
