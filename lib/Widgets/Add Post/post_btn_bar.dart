@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/screen_size.dart';
 import '../../Providers/add_post_controller.dart';
+import '../../Providers/google_map_controller.dart';
 import '../Custom Button/custom_button.dart';
 
 class PostButtonBar extends StatelessWidget {
@@ -19,9 +20,12 @@ class PostButtonBar extends StatelessWidget {
             CustomButton(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    
-                    ctrl.setPostType(Provider.of<MyPostController>(context,listen: false).dropdownvalue);
+                    ctrl.setPostType(
+                        Provider.of<MyPostController>(context, listen: false)
+                            .dropdownvalue);
                     await ctrl.createPost(context);
+                    Provider.of<GoogleMapCtrl>(context, listen: false)
+                        .setAddressDefault();
                   }
                 },
                 label: "Add Post",

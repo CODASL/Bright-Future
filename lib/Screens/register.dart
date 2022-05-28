@@ -1,6 +1,7 @@
 import 'package:brightfuture/Animations/page_transition_slide.dart';
 import 'package:brightfuture/Providers/google_map_controller.dart';
 import 'package:brightfuture/Screens/google_map.dart';
+import 'package:brightfuture/Screens/verify_email.dart';
 import 'package:brightfuture/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +18,6 @@ import '../Widgets/Custom Text Field/custom_textfield.dart';
 import '../Widgets/custom_snackbar.dart';
 import '../Widgets/loading_dialog.dart';
 import '../constant/image.dart';
-import 'home.dart';
 import 'login.dart';
 
 class Register extends StatefulWidget {
@@ -179,7 +179,7 @@ class _RegisterState extends State<Register> {
                                   await AuthService().registerWithEmailPassword(
                                 user: AppUser(
                                   name: ctrl.fullName ?? '',
-                                  city: ctrl.city ?? '',
+                                  city: _address.text,
                                   email: ctrl.email ?? '',
                                   phoneNumber: ctrl.phoneNumber ?? '',
                                 ),
@@ -193,10 +193,18 @@ class _RegisterState extends State<Register> {
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const Home()),
+                                      builder: (context) =>
+                                          const VerifyEmail()),
                                   (Route<dynamic> route) => false,
                                 );
+
+                                Provider.of<GoogleMapCtrl>(context,
+                                        listen: false)
+                                    .setAddressDefault();
                               } else {
+                                Provider.of<GoogleMapCtrl>(context,
+                                        listen: false)
+                                    .setAddressDefault();
                                 Navigator.pop(context);
                                 showSnackBar(
                                     isError: true,

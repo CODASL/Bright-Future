@@ -43,4 +43,9 @@ class GoogleMapCtrl extends ChangeNotifier {
   static setKMap(LatLng latlang) {
     _kMapCenter = latlang;
   }
+
+  setAddressDefault() {
+    address = "Add location";
+    notifyListeners();
+  }
 }
