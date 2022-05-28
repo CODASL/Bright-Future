@@ -1,12 +1,21 @@
+import 'package:brightfuture/Animations/page_transition_slide.dart';
+import 'package:brightfuture/Providers/google_map_controller.dart';
+import 'package:brightfuture/Screens/google_map.dart';
+import 'package:brightfuture/constant/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import '../Models/screen_size.dart';
 import '../Models/user.dart';
 import '../Providers/error_handler.dart';
+import '../Providers/register_controller.dart';
+import '../Providers/validations.dart';
 import '../Services/auth.dart';
 import '../Widgets/Custom Button/custom_button.dart';
 import '../Widgets/Custom Text Field/custom_textfield.dart';
-import '../Widgets/Error Dialog/error_dialog.dart';
+import '../Widgets/custom_snackbar.dart';
+import '../Widgets/loading_dialog.dart';
 import '../constant/image.dart';
 import 'home.dart';
 import 'login.dart';
@@ -19,180 +28,213 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  TextEditingController fullName = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController npassword = TextEditingController();
-  TextEditingController cpassword = TextEditingController();
-  TextEditingController city = TextEditingController();
-  TextEditingController pN = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _address = TextEditingController();
 
-  bool isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<RegisterController>(context, listen: false).city =
+        Provider.of<GoogleMapCtrl>(context, listen: false).address;
+  }
 
   @override
   void dispose() {
-    fullName.dispose();
-    email.dispose();
-    npassword.dispose();
-    cpassword.dispose();
-    city.dispose();
-    pN.dispose();
+    _address.dispose();
     super.dispose();
-  }
-
-  onRegister() async {
-    final errorHandler = Provider.of<ErrorHandler>(context, listen: false);
-
-    if (npassword.text.isNotEmpty &&
-        cpassword.text.isNotEmpty &&
-        npassword.text == cpassword.text &&
-        fullName.text.isNotEmpty &&
-        city.text.isNotEmpty &&
-        email.text.isNotEmpty &&
-        pN.text.isNotEmpty) {
-      setState(() {
-        isLoading = true;
-      });
-      bool isRegistered = await AuthService().registerWithEmailPassword(
-        user: AppUser(
-          name: fullName.text,
-          city: city.text,
-          email: email.text,
-          phoneNumber: pN.text,
-        ),
-        password: cpassword.text,
-        errorHandler: errorHandler,
-      );
-
-      if (isRegistered) {
-        setState(() {
-          isLoading = false;
-        });
-        debugPrint("Registered Success");
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const Home()),
-          (Route<dynamic> route) => false,
-        );
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        showDialog(
-          context: context,
-          builder: (_) {
-            return Consumer<ErrorHandler>(
-              builder: (context, myType, child) {
-                return ErrorDialog(errorText: ErrorHandler.message ?? "");
-              },
-            );
-          },
-        );
-      }
-    } else {
-      showDialog(
-          context: context,
-          builder: (_) {
-            return const ErrorDialog(
-                errorText: "Please Fill All Fields Correctly");
-          });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _address.text = Provider.of<GoogleMapCtrl>(context, listen: true).address;
+    });
+
     return Scaffold(
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              child: SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.35,
-                        child: Image.asset(logo),
-                      ),
-                      CustomTextField(
-                        label: 'Full Name',
-                        isPassword: false,
-                        controller: fullName,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.04,
-                      ),
-                      CustomTextField(
-                        label: 'Email',
-                        isPassword: false,
-                        controller: email,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.04,
-                      ),
-                      CustomTextField(
-                        label: 'City',
-                        isPassword: false,
-                        controller: city,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.04,
-                      ),
-                      CustomTextField(
-                        label: 'Phone Number',
-                        isPassword: false,
-                        controller: pN,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.04,
-                      ),
-                      CustomTextField(
-                        label: 'New Password',
-                        isPassword: true,
-                        controller: npassword,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.04,
-                      ),
-                      CustomTextField(
-                        label: 'Confirm Password',
-                        isPassword: true,
-                        controller: cpassword,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.05,
-                      ),
-                      CustomButton(
-                        onPressed: onRegister,
-                        label: 'Register',
-                        height: 50,
-                        minWidth: ScreenSize.width,
-                        radius: 25,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.04,
-                      ),
-                      CustomButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return const Login();
-                          }));
-                        },
-                        label: "Log In",
-                        height: 50,
-                        minWidth: ScreenSize.width,
-                        radius: 25,
-                      ),
-                      SizedBox(
-                        height: ScreenSize.height * 0.04,
-                      ),
-                    ],
+      body: SingleChildScrollView(
+        child: Form(
+            key: _formKey,
+            child: Consumer<RegisterController>(
+              builder: (context, ctrl, child) {
+                return SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: ScreenSize.height * 0.3,
+                          child: Image.asset(logo),
+                        ),
+                        CustomTextField(
+                          prefixIcon: const Icon(FontAwesomeIcons.user),
+                          validator: (String? fullName) {
+                            return ValidationController.isFullNameValid(
+                                fullName);
+                          },
+                          onChanged: (String? fullName) {
+                            ctrl.setFullName(fullName);
+                          },
+                          label: 'Full Name',
+                          isPassword: false,
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.025,
+                        ),
+                        CustomTextField(
+                          prefixIcon: const Icon(FontAwesomeIcons.envelope),
+                          validator: (String? email) {
+                            return ValidationController.isEmailValidated(email);
+                          },
+                          onChanged: (String? email) {
+                            ctrl.setEmail(email);
+                          },
+                          label: 'Email',
+                          isPassword: false,
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.025,
+                        ),
+                        CustomTextField(
+                          prefixIcon:
+                              const Icon(FontAwesomeIcons.locationArrow),
+                          validator: (String? val) {
+                            return _address.text.isEmpty ||
+                                    _address.text == "Add location"
+                                ? "Address can not be empty"
+                                : null;
+                          },
+                          isReadOnly: true,
+                          controller: _address,
+                          suffix: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context, SlideTransition1(const ShowMap()));
+                            },
+                            child: Icon(
+                              Icons.map,
+                              color: primaryColor,
+                            ),
+                          ),
+                          label: 'Address',
+                          isPassword: false,
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.025,
+                        ),
+                        IntlPhoneField(
+                          decoration: const InputDecoration(
+                              labelText: 'Phone Number',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(),
+                              )),
+                          onChanged: (phone) {
+                            ctrl.setPhoneNumber(phone.completeNumber);
+                          },
+                          initialCountryCode: 'LK',
+                          keyboardType: const TextInputType.numberWithOptions(
+                              signed: true, decimal: true),
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.025,
+                        ),
+                        CustomTextField(
+                          prefixIcon: const Icon(FontAwesomeIcons.userLock),
+                          validator: (String? newPassword) {
+                            return ValidationController.isNewPassValidated(
+                                newPassword);
+                          },
+                          onChanged: (String? newPassword) {
+                            ctrl.setNewPassword(newPassword);
+                          },
+                          label: 'New Password',
+                          isPassword: true,
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.025,
+                        ),
+                        CustomTextField(
+                          prefixIcon: const Icon(FontAwesomeIcons.lock),
+                          validator: (String? confirmPassword) {
+                            return ValidationController.isConfirmPassValidated(
+                                ctrl.newPassword, ctrl.confirmPassword);
+                          },
+                          onChanged: (String? confirmPassword) {
+                            ctrl.setConfirmPassword(confirmPassword);
+                          },
+                          label: 'Confirm Password',
+                          isPassword: true,
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.05,
+                        ),
+                        CustomButton(
+                          onPressed: () async {
+                            final errorHandler = Provider.of<ErrorHandler>(
+                                context,
+                                listen: false);
+
+                            if (_formKey.currentState!.validate()) {
+                              showLoaderDialog(context);
+                              bool isRegistered =
+                                  await AuthService().registerWithEmailPassword(
+                                user: AppUser(
+                                  name: ctrl.fullName ?? '',
+                                  city: ctrl.city ?? '',
+                                  email: ctrl.email ?? '',
+                                  phoneNumber: ctrl.phoneNumber ?? '',
+                                ),
+                                password: ctrl.confirmPassword ?? '',
+                                errorHandler: errorHandler,
+                              );
+
+                              if (isRegistered) {
+                                Navigator.pop(context);
+                                debugPrint("Registered Success");
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()),
+                                  (Route<dynamic> route) => false,
+                                );
+                              } else {
+                                Navigator.pop(context);
+                                showSnackBar(
+                                    isError: true,
+                                    message: ErrorHandler.message ?? '',
+                                    ctx: context);
+                              }
+                            }
+                          },
+                          label: 'Register',
+                          height: ScreenSize.height * 0.08,
+                          minWidth: ScreenSize.width,
+                          radius: 25,
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.02,
+                        ),
+                        CustomButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) {
+                              return const Login();
+                            }));
+                          },
+                          label: "Log In",
+                          height: ScreenSize.height * 0.08,
+                          minWidth: ScreenSize.width,
+                          radius: 25,
+                        ),
+                        SizedBox(
+                          height: ScreenSize.height * 0.04,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            ),
+                );
+              },
+            )),
+      ),
     );
   }
 }

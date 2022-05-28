@@ -18,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   final double? width;
   final Widget? suffix;
   final String? hintText;
+  final bool? isReadOnly;
   const CustomTextField({
     Key? key,
     this.label,
@@ -37,6 +38,7 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.width,
     this.suffix,
+    this.isReadOnly,
   }) : super(key: key);
 
   @override
@@ -44,6 +46,7 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       width: width,
       child: TextFormField(
+        readOnly: isReadOnly ?? false,
         validator: validator,
         initialValue: initialValue,
         onChanged: onChanged,

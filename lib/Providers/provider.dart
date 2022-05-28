@@ -1,6 +1,7 @@
 import 'package:brightfuture/Models/faq.dart';
 import 'package:brightfuture/Models/user_data.dart';
 import 'package:brightfuture/Providers/faq_controller.dart';
+import 'package:brightfuture/Providers/register_controller.dart';
 import 'package:brightfuture/Services/Database/faqs_handeling.dart';
 import 'package:brightfuture/Services/Database/user_handeling.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -68,5 +69,8 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<FAQController>(
     create: (context) => FAQController(),
+  ),
+  ChangeNotifierProvider<RegisterController>(
+    create: (context) => RegisterController(),
   ),
 ];

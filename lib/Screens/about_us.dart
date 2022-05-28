@@ -1,9 +1,11 @@
-import 'package:brightfuture/Models/screen_size.dart';
-import 'package:brightfuture/Widgets/Custom%20App%20Bar/custom_app_bar.dart';
-import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
-import 'package:brightfuture/constant/image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../Models/screen_size.dart';
+import '../Widgets/Custom App Bar/custom_app_bar.dart';
+import '../Widgets/CustomText/custom_text.dart';
+import '../constant/image.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({Key? key}) : super(key: key);
