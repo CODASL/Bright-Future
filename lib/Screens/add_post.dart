@@ -1,7 +1,5 @@
 import 'package:brightfuture/Animations/page_transition_slide.dart';
-import 'package:brightfuture/Models/post_with_ref.dart';
 import 'package:brightfuture/Providers/google_map_controller.dart';
-import 'package:brightfuture/Providers/manage_post_controller.dart';
 import 'package:brightfuture/Providers/my_post_controller.dart';
 import 'package:brightfuture/Screens/google_map.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
@@ -29,11 +27,10 @@ class _ManagePostState extends State<ManagePost> {
   @override
   void initState() {
     super.initState();
-    
   }
+
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       appBar: customAppBar(title: "Add a Post", context: context),
       body: SingleChildScrollView(
@@ -46,6 +43,9 @@ class _ManagePostState extends State<ManagePost> {
               const GetPostIncludes(),
               const AddLocation(),
               PostButtonBar(formKey: _formKey),
+              SizedBox(
+                height: ScreenSize.height * 0.02,
+              )
             ],
           ),
         ),

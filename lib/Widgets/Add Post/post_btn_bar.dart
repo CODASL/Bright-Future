@@ -1,4 +1,5 @@
 import 'package:brightfuture/Providers/my_post_controller.dart';
+import 'package:brightfuture/Widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/screen_size.dart';
@@ -20,12 +21,28 @@ class PostButtonBar extends StatelessWidget {
             CustomButton(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
+                    final String address =
+                        Provider.of<GoogleMapCtrl>(context, listen: false)
+                            .address;
+
                     ctrl.setPostType(
                         Provider.of<MyPostController>(context, listen: false)
                             .dropdownvalue);
-                    await ctrl.createPost(context);
-                    Provider.of<GoogleMapCtrl>(context, listen: false)
-                        .setAddressDefault();
+                    if (ctrl.images.isEmpty) {
+                      showSnackBar(
+                          isError: true,
+                          message: "please add at least one image",
+                          ctx: context);
+                    } else if (address == "Add location") {
+                      showSnackBar(
+                          isError: true,
+                          message: "please add your location",
+                          ctx: context);
+                    } else {
+                      await ctrl.createPost(context);
+                      Provider.of<GoogleMapCtrl>(context, listen: false)
+                          .setAddressDefault();
+                    }
                   }
                 },
                 label: "Add Post",

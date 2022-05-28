@@ -77,19 +77,20 @@ class ManagePostController extends ChangeNotifier {
       final location = Provider.of<GoogleMapCtrl>(context, listen: false);
       String? ref = await PostHandling.addPost(
         Post(
-            address: location.address,
-            location: {
-              "lat": location.lt?.latitude ?? 0.0,
-              "lng": location.lt?.longitude ?? 0.0,
-            },
-            images: [],
-            postBody: postBody ?? '',
-            postedDate: Timestamp.now(),
-            postType: postType ?? '',
-            postedBy: FirebaseAuth.instance.currentUser?.uid),
+          address: location.address,
+          location: {
+            "lat": location.lt?.latitude ?? 0.0,
+            "lng": location.lt?.longitude ?? 0.0,
+          },
+          images: [],
+          postBody: postBody ?? '',
+          postedDate: Timestamp.now(),
+          postType: postType ?? '',
+          postedBy: FirebaseAuth.instance.currentUser?.uid,
+        ),
       ).then((String? ref) {
         return ref;
-      });
+      }).catchError((error, stackrace) => throw Exception());
 
       await uploadImage(context: context, ref: ref).then((value) {
         PostHandling.updatePost(key: "images", value: imgUrls, ref: ref ?? '');
