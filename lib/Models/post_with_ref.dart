@@ -9,6 +9,6 @@ class PostWithRef {
   PostWithRef({
     required this.post,
     required this.ref,
-    required this.user,
+     this.user,
   });
 }

@@ -2,7 +2,7 @@ import 'package:brightfuture/Providers/my_post_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/screen_size.dart';
-import '../../Providers/add_post_controller.dart';
+import '../../Providers/manage_post_controller.dart';
 import '../../Providers/google_map_controller.dart';
 import '../Custom Button/custom_button.dart';
 
@@ -12,7 +12,7 @@ class PostButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AddPostController>(
+    return Consumer<ManagePostController>(
       builder: (context, ctrl, child) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

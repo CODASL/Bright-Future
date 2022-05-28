@@ -1,4 +1,5 @@
 import 'package:brightfuture/Models/faq.dart';
+import 'package:brightfuture/Models/post_with_ref.dart';
 import 'package:brightfuture/Models/user_data.dart';
 import 'package:brightfuture/Providers/faq_controller.dart';
 import 'package:brightfuture/Providers/register_controller.dart';
@@ -7,9 +8,8 @@ import 'package:brightfuture/Services/Database/user_handeling.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import '../Models/post.dart';
 import '../Services/Database/post_handeling.dart';
-import 'add_post_controller.dart';
+import 'manage_post_controller.dart';
 import 'bottom_nav.dart';
 import 'check_connectivity.dart';
 import 'drawer_tile_change.dart';
@@ -42,15 +42,11 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider<ProfileScreenController>(
     create: (context) => ProfileScreenController(),
   ),
-  ChangeNotifierProvider<AddPostController>(
-    create: (context) => AddPostController(),
+  ChangeNotifierProvider<ManagePostController>(
+    create: (context) => ManagePostController(),
   ),
   ChangeNotifierProvider<HomeScreenController>(
     create: (context) => HomeScreenController(),
-  ),
-  StreamProvider<List<Post>>.value(
-    value: PostHandling.listOfPosts(),
-    initialData: const [],
   ),
   StreamProvider<User?>.value(
     value: FirebaseAuth.instance.authStateChanges(),
@@ -62,6 +58,10 @@ List<SingleChildWidget> providers = [
   ),
   StreamProvider<List<UserData>>.value(
     value: UserHandling.getThisUser(),
+    initialData: const [],
+  ),
+  StreamProvider<List<PostWithRef>>.value(
+    value: PostHandling.listOfPosts(),
     initialData: const [],
   ),
   ChangeNotifierProvider<GoogleMapCtrl>(

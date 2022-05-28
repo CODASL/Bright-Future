@@ -68,7 +68,7 @@ class AuthService {
         return false;
       } else {
         debugPrint(e.toString());
-        ErrorHandler.setError(i: true, m: e.toString());
+        ErrorHandler.setError(i: true, m: e.code);
       }
 
       return false;

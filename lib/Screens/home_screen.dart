@@ -1,3 +1,4 @@
+import 'package:brightfuture/Models/post_with_ref.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,57 +27,64 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Consumer<HomeScreenController>(
       builder: (context, ctrl, child) {
-        return Column(
-          children: [
-            SizedBox(
-              height: ScreenSize.height * 0.03,
-            ),
-            PostSearchTextField(
-              ctrl: ctrl,
-            ),
-            SizedBox(
-              height: ScreenSize.height * 0.03,
-            ),
-            StreamBuilder<QuerySnapshot>(
-              stream: PostHandling.getPosts(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: CustomText(title: "Something went wrong"),
-                  );
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingWidget();
-                }
-
-                ctrl.loadPosts(snapshot);
-                if (ctrl.foundData.isNotEmpty) {
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: ctrl.foundData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return EntirePost(
-                        post: ctrl.foundData[index].post,
-                        ref: ctrl.foundData[index].ref,
+        return SizedBox(
+          height: ScreenSize.height,
+          child: Column(
+            children: [
+              SizedBox(
+                height: ScreenSize.height * 0.03,
+              ),
+              PostSearchTextField(
+                ctrl: ctrl,
+              ),
+              SizedBox(
+                height: ScreenSize.height * 0.03,
+              ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: PostHandling.getPosts(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Center(
+                        child: CustomText(title: "Something went wrong"),
                       );
-                    },
-                  );
-                } else {
-                  return SizedBox(
-                    height: ScreenSize.height * 0.6,
-                    child: const Align(
-                        alignment: Alignment.center,
-                        child: CustomText(title: "No search result found !")),
-                  );
-                }
-              },
-            ),
-          ],
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const LoadingWidget();
+                    }
+
+                    ctrl.loadPosts(snapshot);
+                    if (ctrl.foundData.isNotEmpty) {
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: ctrl.foundData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return EntirePost(
+                            post: ctrl.foundData[index].post,
+                            ref: ctrl.foundData[index].ref,
+                          );
+                        },
+                      );
+                    } else {
+                      return SizedBox(
+                        height: ScreenSize.height * 0.6,
+                        child: const Align(
+                            alignment: Alignment.center,
+                            child:
+                                CustomText(title: "No search result found !")),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

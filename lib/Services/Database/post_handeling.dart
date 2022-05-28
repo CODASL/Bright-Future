@@ -1,11 +1,11 @@
 import 'package:brightfuture/Models/post.dart';
+import 'package:brightfuture/Models/post_with_ref.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PostHandling {
   static CollectionReference posts =
       FirebaseFirestore.instance.collection("posts");
-
 
   static Future<String?> addPost(Post post) async {
     String? id =
@@ -52,15 +52,18 @@ class PostHandling {
     });
   }
 
-  static Stream<List<Post>> listOfPosts({String? uid, String? postType}) {
+  static Stream<List<PostWithRef>> listOfPosts(
+      {String? uid, String? postType}) {
     return posts
         .orderBy('postedDate', descending: true)
         .where('postedBy', isEqualTo: uid)
         .where('postType', isEqualTo: postType)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs
-            .map((DocumentSnapshot snapshot) =>
-                Post.fromMap(snapshot.data() as Map<String, dynamic>))
+            .map((DocumentSnapshot snapshot) => PostWithRef(
+                  post: Post.fromMap(snapshot.data() as Map<String, dynamic>),
+                  ref: snapshot.id,
+                ))
             .toList());
   }
 }

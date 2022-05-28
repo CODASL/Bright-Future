@@ -37,21 +37,21 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Badge(
-                      badgeContent: IconButton(
-                          onPressed: () {
+                      badgeContent: InkWell(
+                          onTap: () {
                             Provider.of<ProfileScreenController>(context,
                                     listen: false)
                                 .uploadImage(context);
                           },
-                          icon: Icon(
+                          child: Icon(
                             Icons.camera_alt,
                             color: kWhite,
                           )),
                       child: CachedNetworkImage(
                         imageUrl: snapshot.data?.photoUrl ?? dp,
                         imageBuilder: (context, imageProvider) => Container(
-                          width: ScreenSize.width*0.3,
-                          height: ScreenSize.height*0.17,
+                          width: ScreenSize.width * 0.3,
+                          height: ScreenSize.height * 0.17,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(

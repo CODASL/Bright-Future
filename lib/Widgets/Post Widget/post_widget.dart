@@ -1,5 +1,6 @@
 import 'package:brightfuture/Animations/page_transition_slide.dart';
-import 'package:brightfuture/Providers/add_post_controller.dart';
+import 'package:brightfuture/Models/utiil_model.dart';
+import 'package:brightfuture/Providers/manage_post_controller.dart';
 import 'package:brightfuture/Screens/post_screen.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
 import 'package:brightfuture/Widgets/loading.dart';
@@ -73,7 +74,7 @@ class PostHeader extends StatefulWidget {
 class _PostHeaderState extends State<PostHeader> {
   @override
   Widget build(BuildContext context) {
-    const menuItems = ['Update', 'Delete'];
+    const menuItems = ['Delete'];
     return StreamBuilder<QuerySnapshot>(
       stream: UserHandling.getUserFieldValue(widget.uid),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -86,24 +87,33 @@ class _PostHeaderState extends State<PostHeader> {
                     backgroundImage: NetworkImage(photoUrl),
                   ),
             title: Text(name ?? "Loading...."),
-            subtitle: Text(widget.postedDate.toDate().toString()),
+            subtitle: Text(UtilModel.timeStampToString(widget.postedDate)),
             trailing: widget.uid == FirebaseAuth.instance.currentUser!.uid
-                ? PopupMenuButton<String>(
-                    onSelected: (String val) {
-                      if (val == "Delete") {
-                        Provider.of<AddPostController>(context, listen: false)
-                            .deletePost(widget.ref, context);
-                      }
+                ? IconButton(
+                    onPressed: () {
+                      Provider.of<ManagePostController>(context, listen: false)
+                          .deletePost(widget.ref, context);
                     },
-                    itemBuilder: (BuildContext context) {
-                      return menuItems.map((val) {
-                        return PopupMenuItem<String>(
-                          value: val,
-                          child: Text(val),
-                        );
-                      }).toList();
-                    },
-                  )
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ))
+                // ? PopupMenuButton<String>(
+                //     onSelected: (String val) {
+                //       if (val == "Delete") {
+                //         Provider.of<ManagePostController>(context, listen: false)
+                //             .deletePost(widget.ref, context);
+                //       }
+                //     },
+                //     itemBuilder: (BuildContext context) {
+                //       return menuItems.map((val) {
+                //         return PopupMenuItem<String>(
+                //           value: val,
+                //           child: Text(val),
+                //         );
+                //       }).toList();
+                //     },
+                //   )
                 : null);
       },
     );

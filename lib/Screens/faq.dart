@@ -19,6 +19,7 @@ class FAQScreen extends StatelessWidget {
     List<FAQ> faqList = Provider.of<List<FAQ>>(context);
     return SafeArea(
       child: Scaffold(
+        
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => showModalBottomSheet(

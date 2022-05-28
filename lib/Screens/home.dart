@@ -61,26 +61,31 @@ class CustomFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return bNav.currentIndex == 1
-        ? FloatingActionButton(
-            onPressed: () async {
-              Uri _url = Uri.parse(
-                  "tel:${Provider.of<ProfileScreenController>(context, listen: false).user?.phoneNumber.toString()}");
-
-              try {
-                await launchUrl(_url);
-              } catch (e) {
-                debugPrint('$e');
-                debugPrint('Could not launch $_url');
-              }
-            },
-            child: const Icon(Icons.phone),
-          )
+        ? const SizedBox()
         : FloatingActionButton.extended(
             label: const CustomText(title: "Add a Post"),
             onPressed: () {
-              Navigator.push(context, SlideTransition1(const AddPost()));
+              Navigator.push(
+                  context,
+                  SlideTransition1(const ManagePost(
+                    isAdd: true,
+                  )));
             },
             icon: const Icon(Icons.post_add),
           );
+  }
+}
+
+class CallButton extends StatelessWidget {
+  const CallButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+       
+      },
+      child: const Icon(Icons.phone),
+    );
   }
 }

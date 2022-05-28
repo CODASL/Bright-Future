@@ -1,5 +1,7 @@
 import 'package:brightfuture/Animations/page_transition_slide.dart';
+import 'package:brightfuture/Models/post_with_ref.dart';
 import 'package:brightfuture/Providers/google_map_controller.dart';
+import 'package:brightfuture/Providers/manage_post_controller.dart';
 import 'package:brightfuture/Providers/my_post_controller.dart';
 import 'package:brightfuture/Screens/google_map.dart';
 import 'package:brightfuture/Widgets/CustomText/custom_text.dart';
@@ -14,17 +16,24 @@ import '../Widgets/Add Post/get_post_includes.dart';
 import '../Widgets/Add Post/post_btn_bar.dart';
 import '../Widgets/Custom App Bar/custom_app_bar.dart';
 
-class AddPost extends StatefulWidget {
-  const AddPost({Key? key}) : super(key: key);
+class ManagePost extends StatefulWidget {
+  final bool isAdd;
+  const ManagePost({Key? key, required this.isAdd}) : super(key: key);
 
   @override
-  State<AddPost> createState() => _AddPostState();
+  State<ManagePost> createState() => _ManagePostState();
 }
 
-class _AddPostState extends State<AddPost> {
+class _ManagePostState extends State<ManagePost> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
+  void initState() {
+    super.initState();
+    
+  }
+  @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       appBar: customAppBar(title: "Add a Post", context: context),
       body: SingleChildScrollView(

@@ -1,4 +1,4 @@
-import 'package:brightfuture/Providers/home_screen_controller.dart';
+import 'package:brightfuture/Models/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,14 +6,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../Animations/page_transition_slide.dart';
 import '../Models/post.dart';
+import '../Models/post_with_ref.dart';
 import '../Screens/home.dart';
 import '../Services/Database/post_handeling.dart';
 import '../Services/storage.dart';
 import '../Widgets/custom_snackbar.dart';
 import '../Widgets/loading_dialog.dart';
 import 'google_map_controller.dart';
+import 'home_screen_controller.dart';
 
-class AddPostController extends ChangeNotifier {
+class ManagePostController extends ChangeNotifier {
   Map<String, XFile?> images = {};
   String? postBody;
   List<String> imgUrls = [];
@@ -100,7 +102,7 @@ class AddPostController extends ChangeNotifier {
     }
   }
 
-  deletePost(String docid , BuildContext context) async {
+  deletePost(String docid, BuildContext context) async {
     try {
       await PostHandling.deletePost(docid);
       Provider.of<HomeScreenController>(context, listen: false)
@@ -110,5 +112,19 @@ class AddPostController extends ChangeNotifier {
     } on Exception catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  static PostWithRef loadCurrentPostData(String docid, BuildContext context) {
+    PostWithRef postRef = Provider.of<List<PostWithRef>>(context)
+        .where((PostWithRef postWithRef) => postWithRef.ref == docid)
+        .toList()[0];
+
+    return postRef;
+  }
+
+  static List<UserData> getPostOwner(String? uid, BuildContext context) {
+    return Provider.of<List<UserData>>(context)
+        .where((UserData user) => user.uid == uid)
+        .toList();
   }
 }

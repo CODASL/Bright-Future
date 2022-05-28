@@ -5,8 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class GoogleMapCtrl extends ChangeNotifier {
   String address = "Add location";
   LatLng? lt;
-  static LatLng _kMapCenter =
-      const LatLng(19.018255973653343, 72.84793849278007);
+  static LatLng _kMapCenter = const LatLng(6.9271, 79.8612);
 
   static CameraPosition kInitialPostion =
       CameraPosition(target: _kMapCenter, zoom: 11.0, tilt: 0, bearing: 0);
