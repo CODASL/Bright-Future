@@ -128,4 +128,9 @@ class ManagePostController extends ChangeNotifier {
         .where((UserData user) => user.uid == uid)
         .toList();
   }
+
+  clearImageArray() {
+    images = {};
+    notifyListeners();
+  }
 }

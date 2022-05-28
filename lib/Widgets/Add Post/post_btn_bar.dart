@@ -1,11 +1,12 @@
-import 'package:brightfuture/Providers/my_post_controller.dart';
-import 'package:brightfuture/Widgets/custom_snackbar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Models/screen_size.dart';
 import '../../Providers/manage_post_controller.dart';
 import '../../Providers/google_map_controller.dart';
+import '../../Providers/my_post_controller.dart';
 import '../Custom Button/custom_button.dart';
+import '../custom_snackbar.dart';
 
 class PostButtonBar extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -42,6 +43,8 @@ class PostButtonBar extends StatelessWidget {
                       await ctrl.createPost(context);
                       Provider.of<GoogleMapCtrl>(context, listen: false)
                           .setAddressDefault();
+
+                      ctrl.clearImageArray();
                     }
                   }
                 },

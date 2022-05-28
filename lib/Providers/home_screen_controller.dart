@@ -1,9 +1,9 @@
-import 'package:brightfuture/Services/Database/post_handeling.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import '../Models/post.dart';
 import '../Models/post_with_ref.dart';
 import '../Models/user_data.dart';
+import '../Services/Database/post_handeling.dart';
 import '../Services/Database/user_handeling.dart';
 
 class HomeScreenController extends ChangeNotifier {
@@ -64,5 +64,16 @@ class HomeScreenController extends ChangeNotifier {
     UserHandling.getUserFieldValue(uid).listen((QuerySnapshot snapshot) {
       user = UserData.fromMap(snapshot.docs[0].data() as Map<String, dynamic>);
     });
+  }
+
+  chipOnClick(String? postType) {
+    if (postType != null) {
+      foundData = posts
+          .where((PostWithRef postref) => postref.post.postType == postType)
+          .toList();
+    } else {
+      foundData = posts;
+    }
+    notifyListeners();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:brightfuture/Models/post_with_ref.dart';
+import 'package:brightfuture/constant/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Consumer<HomeScreenController>(
       builder: (context, ctrl, child) {
         return SizedBox(
@@ -41,8 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ctrl: ctrl,
               ),
               SizedBox(
-                height: ScreenSize.height * 0.03,
+                height: ScreenSize.height * 0.01,
               ),
+              const ChipSet(),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: PostHandling.getPosts(),
@@ -61,8 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ctrl.loadPosts(snapshot);
                     if (ctrl.foundData.isNotEmpty) {
                       return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
                         itemCount: ctrl.foundData.length,
                         itemBuilder: (BuildContext context, int index) {
                           return EntirePost(
@@ -72,19 +70,73 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       );
                     } else {
-                      return SizedBox(
-                        height: ScreenSize.height * 0.6,
-                        child: const Align(
-                            alignment: Alignment.center,
-                            child:
-                                CustomText(title: "No search result found !")),
-                      );
+                      return const Align(
+                          alignment: Alignment.center,
+                          child: CustomText(title: "No search result found !"));
                     }
                   },
                 ),
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+}
+
+class ChipSet extends StatelessWidget {
+  const ChipSet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<HomeScreenController>(
+      builder: (context, ctrl, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                ctrl.chipOnClick(null);
+              },
+              child: Chip(
+                label: const CustomText(title: 'All Posts'),
+                labelStyle: TextStyle(color: kWhite),
+                elevation: 3,
+                backgroundColor: primaryColor,
+              ),
+            ),
+            SizedBox(
+              width: ScreenSize.width * 0.01,
+            ),
+            InkWell(
+              onTap: () {
+                ctrl.chipOnClick("Claim");
+              },
+              child: Chip(
+                label: const CustomText(title: 'Claim Posts'),
+                labelStyle: TextStyle(color: kWhite),
+                elevation: 3,
+                backgroundColor: primaryColor,
+              ),
+            ),
+            SizedBox(
+              width: ScreenSize.width * 0.01,
+            ),
+            InkWell(
+              onTap: () {
+                ctrl.chipOnClick("Offer");
+              },
+              child: Chip(
+                  backgroundColor: primaryColor,
+                  labelStyle: TextStyle(color: kWhite),
+                  label: const CustomText(
+                    title: 'Offer Posts',
+                  ),
+                  elevation: 3),
+            )
+          ],
         );
       },
     );
